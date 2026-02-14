@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/registerFragment">
+
+    <!-- 注册 -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.familyflow.ui.auth.RegisterFragment"
+        android:label="注册账号">
+        <action
+            android:id="@+id/action_register_to_login"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <!-- 登录 -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.familyflow.ui.auth.LoginFragment"
+        android:label="登录">
+        <action
+            android:id="@+id/action_login_to_firstUse"
+            app:destination="@id/firstUseFragment" />
+    </fragment>
+
+    <!-- 第一次使用 -->
+    <fragment
+        android:id="@+id/firstUseFragment"
+        android:name="com.example.familyflow.ui.family.FirstUseFragment"
+        android:label="是否为家庭内的第一次使用">
+        <action
+            android:id="@+id/action_first_to_create"
+            app:destination="@id/createFamilyFragment" />
+        <action
+            android:id="@+id/action_first_to_join"
+            app:destination="@id/joinFamilyFragment" />
+    </fragment>
+
+    <!-- 创建家庭 -->
+    <fragment
+        android:id="@+id/createFamilyFragment"
+        android:name="com.example.familyflow.ui.family.CreateFamilyFragment"
+        android:label="创建家庭">
+        <action
+            android:id="@+id/action_create_to_surveyPrompt"
+            app:destination="@id/surveyPromptFragment" />
+    </fragment>
+
+    <!-- 加入家庭 -->
+    <fragment
+        android:id="@+id/joinFamilyFragment"
+        android:name="com.example.familyflow.ui.family.JoinFamilyFragment"
+        android:label="加入家庭">
+        <action
+            android:id="@+id/action_join_to_surveyPrompt"
+            app:destination="@id/surveyPromptFragment" />
+    </fragment>
+
+    <!-- 问卷提示 -->
+    <fragment
+        android:id="@+id/surveyPromptFragment"
+        android:name="com.example.familyflow.ui.survey.SurveyPromptFragment"
+        android:label="是否进行问卷（强烈建议）">
+        <action
+            android:id="@+id/action_prompt_to_survey"
+            app:destination="@id/surveyFragment" />
+        <action
+            android:id="@+id/action_prompt_to_content"
+            app:destination="@id/contentFragment" />
+    </fragment>
+
+    <!-- 问卷调查 -->
+    <fragment
+        android:id="@+id/surveyFragment"
+        android:name="com.example.familyflow.ui.survey.SurveyFragment"
+        android:label="问卷调查">
+        <action
+            android:id="@+id/action_survey_to_content"
+            app:destination="@id/contentFragment" />
+    </fragment>
+
+    <!-- 内容主页 -->
+    <fragment
+        android:id="@+id/contentFragment"
+        android:name="com.example.familyflow.ui.content.ContentFragment"
+        android:label="内容">
+        <action
+            android:id="@+id/action_content_to_category"
+            app:destination="@id/questionCategoryFragment" />
+    </fragment>
+
+    <!-- 选择问题类别 -->
+    <fragment
+        android:id="@+id/questionCategoryFragment"
+        android:name="com.example.familyflow.ui.content.QuestionCategoryFragment"
+        android:label="选择问题类别">
+        <action
+            android:id="@+id/action_category_to_question"
+            app:destination="@id/questionSelectFragment" />
+    </fragment>
+
+    <!-- 选择问题 -->
+    <fragment
+        android:id="@+id/questionSelectFragment"
+        android:name="com.example.familyflow.ui.content.QuestionSelectFragment"
+        android:label="选择问题">
+        <action
+            android:id="@+id/action_question_to_suggestion"
+            app:destination="@id/suggestionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/contentFragment"
+        android:name="com.example.familyflow.ui.content.ContentFragment"
+        android:label="内容">
+        <action
+            android:id="@+id/action_content_to_suggestion"
+            app:destination="@id/suggestionFragment" />
+    </fragment>
+
+    <!-- 显示建议 -->
+    <fragment
+        android:id="@+id/suggestionFragment"
+        android:name="com.example.familyflow.ui.content.SuggestionFragment"
+        android:label="显示内容与建议">
+        <action
+            android:id="@+id/action_suggestion_to_complete"
+            app:destination="@id/completeFragment" />
+    </fragment>
+
+    <!-- 完成 -->
+    <fragment
+        android:id="@+id/completeFragment"
+        android:name="com.example.familyflow.ui.content.CompleteFragment"
+        android:label="恭喜完成">
+        <action
+            android:id="@+id/action_complete_to_content"
+            app:destination="@id/contentFragment" />
+    </fragment>
+</navigation>
