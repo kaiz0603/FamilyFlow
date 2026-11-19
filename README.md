@@ -10,24 +10,12 @@ FamilyFlow helps parents and teenagers see how each of them experiences the fami
 - **Act on it.** An advice library for every parenting style, plus weekly family challenges with daily check-ins and reminders.
 - **Bilingual.** Simplified Chinese and English.
 
-> Status: being rebuilt from a hackathon prototype into a launch-ready app. See the [roadmap](docs/ROADMAP.md).
+> Status: being rebuilt from a hackathon prototype into a launch-ready app.
 
 _Screenshots: coming at M7._
 
 ### Tech
 Flutter (Android + iOS) · Firebase Auth, Cloud Firestore, Crashlytics · go_router · provider (MVVM, official Flutter architecture) · fl_chart · Firestore security rules with emulator tests · GitHub Actions CI.
-
-### Docs
-| | |
-|---|---|
-| [Product requirements](docs/PRD.md) | users, features, non-goals |
-| [Architecture](docs/ARCHITECTURE.md) | layers, folders, testing, CI |
-| [Data model](docs/DATA_MODEL.md) | Firestore schema and rules |
-| [Assessment](docs/ASSESSMENT.md) | scoring model and content guide |
-| [Privacy](docs/PRIVACY.md) | data inventory, age gate, deletion |
-| [Release](docs/RELEASE.md) | signing and distribution |
-| [Decisions](docs/adr/) | architecture decision records |
-| [Glossary](GLOSSARY.md) | domain terms (en ↔ zh) |
 
 ### Getting started
 You will need the Flutter SDK (stable), Android Studio, Node 20+, and the Firebase CLI.
@@ -52,10 +40,8 @@ FamilyFlow 帮助父母和青少年子女看清彼此眼中的家庭教养方式
 - **落到行动**：按四种教养方式分类的建议库，以及每周亲子挑战、每日打卡和提醒。
 - **双语**：简体中文与英文。
 
-> 状态：正在把黑客松原型重建为可上线的产品，进度见[路线图](docs/ROADMAP.md)。
+> 状态：正在把黑客松原型重建为可上线的产品。
 
 技术栈：Flutter（Android + iOS）、Firebase Auth、Cloud Firestore、Crashlytics、go_router、provider（MVVM，Flutter 官方架构）、fl_chart、带模拟器测试的 Firestore 安全规则、GitHub Actions CI。
-
-文档目前为英文，术语中英对照见 [GLOSSARY.md](GLOSSARY.md)。
 
 本应用是帮助家庭自我反思的工具，不是心理诊断。
