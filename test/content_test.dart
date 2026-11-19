@@ -73,6 +73,24 @@ void main() {
     }
   });
 
+  test('advice has 25 cards per role and style, every tag at least 3 times', () {
+    for (final role in Role.values) {
+      for (final style in ParentingStyle.values) {
+        final cards = advice['zh']!.items.where(
+          (a) => a.role == role && a.style == style,
+        );
+        expect(cards, hasLength(25), reason: '${role.name}/${style.name}');
+        for (final tag in AdviceLibrary.tags) {
+          expect(
+            cards.where((a) => a.tags.contains(tag)).length,
+            greaterThanOrEqualTo(3),
+            reason: '${role.name}/${style.name}/$tag',
+          );
+        }
+      }
+    }
+  });
+
   test('advice covers every tag for every role and style', () {
     for (final role in Role.values) {
       for (final style in ParentingStyle.values) {
