@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "appTitle": "FamilyFlow",
+  "tabHome": "Home",
+  "@tabHome": { "description": "Bottom navigation tab: family activity and entry cards" },
+  "tabCompare": "Compare",
+  "@tabCompare": { "description": "Bottom navigation tab: parent vs child perception chart" },
+  "tabAdvice": "Advice",
+  "@tabAdvice": { "description": "Bottom navigation tab: advice library" },
+  "tabSettings": "Settings",
+  "@tabSettings": { "description": "Bottom navigation tab: settings" },
+  "comingSoon": "Coming soon",
+  "@comingSoon": { "description": "Placeholder body for screens not built yet" }
+}

@@ -1,5 +1,33 @@
-# Project exclude paths
-/.gradle/
-/app/build/
-/app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/
-/build/
+# Flutter / Dart (flutter create adds platform-specific ignores under android/ and ios/)
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+coverage/
+*.iml
+
+# Secrets — never commit
+android/key.properties
+*.jks
+*.keystore
+service-account*.json
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+node_modules/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Legacy Android app
+legacy/local.properties
+legacy/.gradle/
+legacy/app/build/
+
+# Claude Code local settings
+.claude/settings.local.json

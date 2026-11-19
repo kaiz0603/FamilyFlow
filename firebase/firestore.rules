@@ -1,0 +1,10 @@
+rules_version = '2';
+
+// Deny everything until each collection gets its rules (M1+), see docs/DATA_MODEL.md.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
