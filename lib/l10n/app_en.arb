@@ -2,13 +2,82 @@
   "@@locale": "en",
   "appTitle": "FamilyFlow",
   "tabHome": "Home",
-  "@tabHome": { "description": "Bottom navigation tab: family activity and entry cards" },
+  "@tabHome": {
+    "description": "Bottom navigation tab: family activity and entry cards"
+  },
   "tabCompare": "Compare",
-  "@tabCompare": { "description": "Bottom navigation tab: parent vs child perception chart" },
+  "@tabCompare": {
+    "description": "Bottom navigation tab: parent vs child perception chart"
+  },
   "tabAdvice": "Advice",
-  "@tabAdvice": { "description": "Bottom navigation tab: advice library" },
+  "@tabAdvice": {
+    "description": "Bottom navigation tab: advice library"
+  },
   "tabSettings": "Settings",
-  "@tabSettings": { "description": "Bottom navigation tab: settings" },
+  "@tabSettings": {
+    "description": "Bottom navigation tab: settings"
+  },
   "comingSoon": "Coming soon",
-  "@comingSoon": { "description": "Placeholder body for screens not built yet" }
+  "@comingSoon": {
+    "description": "Placeholder body for screens not built yet"
+  },
+  "welcomeTagline": "See your family through each other's eyes.",
+  "@welcomeTagline": {
+    "description": "Welcome screen subtitle"
+  },
+  "signIn": "Sign in",
+  "signUp": "Create account",
+  "signOut": "Sign out",
+  "email": "Email",
+  "password": "Password",
+  "passwordHint": "At least 8 characters",
+  "forgotPassword": "Forgot password?",
+  "resetPasswordTitle": "Reset password",
+  "resetPasswordBody": "We'll email you a link to set a new password.",
+  "sendLink": "Send link",
+  "resetEmailSent": "If an account exists for that email, a reset link is on its way.",
+  "noAccountYet": "New to FamilyFlow? Create an account",
+  "haveAccount": "Already have an account? Sign in",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "continueAction": "Continue",
+  "profileSetupTitle": "About you",
+  "profileSetupIntro": "This sets which questionnaire and advice you get. Your role and birth year can't be changed later.",
+  "roleLabel": "I am a",
+  "roleParent": "Parent",
+  "roleChild": "Child",
+  "displayName": "Name shown to your family",
+  "birthYear": "Birth year",
+  "childPrivacyNote": "Your parents will only see your overall scores, never your individual answers.",
+  "useAnotherAccount": "Use a different account",
+  "underAgeTitle": "FamilyFlow is for ages 13 and up",
+  "underAgeBody": "Thanks for your interest! FamilyFlow is not available for children under 13 yet. This account will be removed and no information is kept.",
+  "parentTooYoung": "Parents must be 18 or older. If you're under 18, choose Child.",
+  "fieldRequired": "Required",
+  "invalidEmailField": "Enter a valid email",
+  "passwordTooShort": "Use at least 8 characters",
+  "nameTooLong": "{max} characters at most",
+  "@nameTooLong": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsProfile": "Profile",
+  "settingsLanguage": "Language",
+  "languageZh": "中文",
+  "languageEn": "English",
+  "deleteAccount": "Delete account",
+  "deleteAccountBody": "This permanently deletes your profile and sign-in. It cannot be undone. Enter your password to confirm.",
+  "deleteAccountConfirm": "Delete permanently",
+  "errNetwork": "No connection. Check your internet and try again.",
+  "errInvalidCredentials": "Email or password is incorrect.",
+  "errEmailInUse": "An account with this email already exists. Try signing in.",
+  "errWeakPassword": "That password is too weak. Use at least 8 characters.",
+  "errInvalidEmail": "That email address doesn't look right.",
+  "errTooManyRequests": "Too many attempts. Wait a moment and try again.",
+  "errRequiresRecentLogin": "For your security, sign in again and retry.",
+  "errPermissionDenied": "You don't have permission to do that.",
+  "errUnknown": "Something went wrong. Please try again."
 }

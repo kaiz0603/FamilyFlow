@@ -1,31 +1,19 @@
-// Run inside the emulator: firebase emulators:exec --only firestore "npm test --prefix firebase/tests"
-import { readFileSync } from 'node:fs';
 import { after, before, test } from 'node:test';
-import {
-  assertFails,
-  initializeTestEnvironment,
-} from '@firebase/rules-unit-testing';
+import { assertFails } from '@firebase/rules-unit-testing';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { testEnv } from './helpers.js';
 
 let env;
-
-before(async () => {
-  env = await initializeTestEnvironment({
-    projectId: 'demo-familyflow',
-    firestore: {
-      rules: readFileSync(new URL('../firestore.rules', import.meta.url), 'utf8'),
-    },
-  });
-});
-
+before(async () => { env = await testEnv(); });
 after(() => env.cleanup());
 
-test('signed-out users cannot read anything', async () => {
+test('signed-out users cannot read profiles', async () => {
   const db = env.unauthenticatedContext().firestore();
   await assertFails(getDoc(doc(db, 'users/alice')));
 });
 
-test('signed-in users cannot write before rules exist', async () => {
+test('collections without rules stay closed', async () => {
   const db = env.authenticatedContext('alice').firestore();
-  await assertFails(setDoc(doc(db, 'users/alice'), { displayName: 'Alice' }));
+  await assertFails(setDoc(doc(db, 'families/f1'), { name: 'x' }));
+  await assertFails(getDoc(doc(db, 'families/f1')));
 });

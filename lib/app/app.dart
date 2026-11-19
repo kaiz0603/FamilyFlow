@@ -4,15 +4,27 @@ import 'package:flutter_localizations/flutter_localizations.dart'
     show GlobalWidgetsLocalizations;
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
+import '../data/repositories/auth_repository.dart';
+import '../data/repositories/profile_repository.dart';
 import '../l10n/app_localizations.dart';
 import '../ui/core/theme.dart';
 import 'router.dart';
+import 'session.dart';
 
 class FamilyFlowApp extends StatefulWidget {
-  const FamilyFlowApp({super.key, this.locale});
+  const FamilyFlowApp({
+    super.key,
+    required this.auth,
+    required this.profiles,
+    this.locale,
+  });
 
-  /// Forces a locale (tests). Null follows the device language.
+  final AuthRepository auth;
+  final ProfileRepository profiles;
+
+  /// Forces a locale (tests). Otherwise: the profile's language, else the device's.
   final Locale? locale;
 
   @override
@@ -20,31 +32,46 @@ class FamilyFlowApp extends StatefulWidget {
 }
 
 class _FamilyFlowAppState extends State<FamilyFlowApp> {
-  final GoRouter _router = createRouter();
+  late final Session _session = Session(
+    auth: widget.auth,
+    profiles: widget.profiles,
+  );
+  late final GoRouter _router = createRouter(_session);
 
   @override
   void dispose() {
     _router.dispose();
+    _session.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      locale: widget.locale,
-      // Not AppLocalizations.localizationsDelegates: gen-l10n still emits the
-      // flutter_localizations delegates, which don't serve material_ui (zh breaks).
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiProvider(
+      providers: [
+        Provider.value(value: widget.auth),
+        Provider.value(value: widget.profiles),
+        ChangeNotifierProvider.value(value: _session),
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: _router,
+      child: ListenableBuilder(
+        listenable: _session,
+        builder: (context, _) => MaterialApp.router(
+          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          locale: widget.locale ?? _session.locale,
+          // Not AppLocalizations.localizationsDelegates: gen-l10n still emits the
+          // flutter_localizations delegates, which don't serve material_ui (zh breaks).
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          routerConfig: _router,
+        ),
+      ),
     );
   }
 }

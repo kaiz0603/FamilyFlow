@@ -7,6 +7,8 @@ import 'package:material_ui/material_ui.dart';
 import 'app/app.dart';
 import 'config/env.dart';
 import 'config/firebase_options.dart';
+import 'data/repositories/auth_repository.dart';
+import 'data/repositories/profile_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,5 +21,10 @@ Future<void> main() async {
     await FirebaseAuth.instance.useAuthEmulator(host, 9099);
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
   }
-  runApp(const FamilyFlowApp());
+  runApp(
+    FamilyFlowApp(
+      auth: AuthRepository(FirebaseAuth.instance),
+      profiles: ProfileRepository(FirebaseFirestore.instance),
+    ),
+  );
 }
