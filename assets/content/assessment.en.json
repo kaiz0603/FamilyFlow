@@ -1,5 +1,5 @@
 {
-  "contentVersion": "1.0",
+  "contentVersion": "1.1",
   "scale": ["Strongly disagree", "Disagree", "Neither", "Agree", "Strongly agree"],
   "forms": {
     "parent_self": [

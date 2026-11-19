@@ -30,6 +30,9 @@ class ContentRepository {
     ),
   );
 
+  // Not loadString: above 50 KB it decodes in an isolate, which never
+  // completes in widget tests. Files are read once, so main-thread decoding is fine.
   Future<Map<String, dynamic>> _json(String path) async =>
-      jsonDecode(await _bundle.loadString(path)) as Map<String, dynamic>;
+      jsonDecode(utf8.decode(Uint8List.sublistView(await _bundle.load(path))))
+          as Map<String, dynamic>;
 }

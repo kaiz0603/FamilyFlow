@@ -1,5 +1,5 @@
 {
-  "contentVersion": "1.0",
+  "contentVersion": "1.1",
   "scale": ["非常不符合", "比较不符合", "不确定", "比较符合", "非常符合"],
   "forms": {
     "parent_self": [
