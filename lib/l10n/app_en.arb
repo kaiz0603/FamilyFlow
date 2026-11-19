@@ -134,5 +134,92 @@
   "leaveFamilyBody": "You'll stop seeing this family's results and challenges. Your own results here are removed.",
   "leaveFamilyLastParentBody": "If you are the last parent, the family is removed for everyone.",
   "deleteAccountFamilyNote": "You will also leave your family. If you are its last parent, the family is removed for everyone.",
-  "errInvalidInviteCode": "That code doesn't work. It may have expired — ask for a new one."
+  "errInvalidInviteCode": "That code doesn't work. It may have expired — ask for a new one.",
+  "assessmentTitleSelf": "Parenting self-check",
+  "assessmentTitleChild": "How you see {name}",
+  "@assessmentTitleChild": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "assessmentIntro": "24 statements, about 5 minutes. Answer how things usually are. There are no right or wrong answers.",
+  "assessmentDisclaimer": "This is a self-reflection tool for families, not a psychological assessment. If you or someone in your family feels persistently distressed or unsafe, please reach out to a school counsellor or a professional.",
+  "assessmentChildPrivacy": "{name} will see your overall scores and style, never your individual answers.",
+  "@assessmentChildPrivacy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "startAssessment": "Start",
+  "resumeAssessment": "Continue where you left off",
+  "questionProgress": "{current} of {total}",
+  "@questionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "previousQuestion": "Back",
+  "seeResult": "See my result",
+  "resultTitle": "Your result",
+  "resultLeadSelf": "Your style is closest to",
+  "resultLeadChild": "In your eyes, {name}'s style is closest to",
+  "@resultLeadChild": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dimWarmth": "Warmth",
+  "dimDemandingness": "Demandingness",
+  "styleAuthoritative": "Authoritative",
+  "styleAuthoritarian": "Authoritarian",
+  "stylePermissive": "Permissive",
+  "styleNeglectful": "Neglectful",
+  "styleDescAuthoritative": "High warmth and high demandingness: caring about feelings while keeping clear rules that are explained.",
+  "styleDescAuthoritarian": "High demandingness, lower warmth: discipline and obedience come first, with less explaining and listening.",
+  "styleDescPermissive": "High warmth, lower demandingness: a close relationship, with few rules or little follow-through.",
+  "styleDescNeglectful": "Lower warmth and lower demandingness: little day-to-day attention or structure, which is common when a family is busy or under stress.",
+  "tryThis": "Try this",
+  "seeAllAdvice": "See all advice",
+  "done": "Done",
+  "selfCheckTitle": "Your self-check",
+  "notDoneYet": "Not done yet",
+  "lastResult": "Last: {style} · {date}",
+  "@lastResult": {
+    "placeholders": {
+      "style": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "takeIt": "Start",
+  "retake": "Retake",
+  "rateParentsTitle": "Rate your parents",
+  "notRatedYet": "Not rated yet",
+  "rateAction": "Rate",
+  "allStyles": "All styles",
+  "allTopics": "All topics",
+  "tagBedtime": "Bedtime",
+  "tagScreens": "Screens",
+  "tagStudy": "Study",
+  "tagFriends": "Friends",
+  "tagChores": "Chores",
+  "tagEmotions": "Emotions",
+  "tagMoney": "Money",
+  "tagRespect": "Respect",
+  "weeklyChallenge": "This week's challenge",
+  "adviceEmpty": "No advice matches these filters."
 }

@@ -304,4 +304,158 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errInvalidInviteCode =>
       'That code doesn\'t work. It may have expired — ask for a new one.';
+
+  @override
+  String get assessmentTitleSelf => 'Parenting self-check';
+
+  @override
+  String assessmentTitleChild(String name) {
+    return 'How you see $name';
+  }
+
+  @override
+  String get assessmentIntro =>
+      '24 statements, about 5 minutes. Answer how things usually are. There are no right or wrong answers.';
+
+  @override
+  String get assessmentDisclaimer =>
+      'This is a self-reflection tool for families, not a psychological assessment. If you or someone in your family feels persistently distressed or unsafe, please reach out to a school counsellor or a professional.';
+
+  @override
+  String assessmentChildPrivacy(String name) {
+    return '$name will see your overall scores and style, never your individual answers.';
+  }
+
+  @override
+  String get startAssessment => 'Start';
+
+  @override
+  String get resumeAssessment => 'Continue where you left off';
+
+  @override
+  String questionProgress(int current, int total) {
+    return '$current of $total';
+  }
+
+  @override
+  String get previousQuestion => 'Back';
+
+  @override
+  String get seeResult => 'See my result';
+
+  @override
+  String get resultTitle => 'Your result';
+
+  @override
+  String get resultLeadSelf => 'Your style is closest to';
+
+  @override
+  String resultLeadChild(String name) {
+    return 'In your eyes, $name\'s style is closest to';
+  }
+
+  @override
+  String get dimWarmth => 'Warmth';
+
+  @override
+  String get dimDemandingness => 'Demandingness';
+
+  @override
+  String get styleAuthoritative => 'Authoritative';
+
+  @override
+  String get styleAuthoritarian => 'Authoritarian';
+
+  @override
+  String get stylePermissive => 'Permissive';
+
+  @override
+  String get styleNeglectful => 'Neglectful';
+
+  @override
+  String get styleDescAuthoritative =>
+      'High warmth and high demandingness: caring about feelings while keeping clear rules that are explained.';
+
+  @override
+  String get styleDescAuthoritarian =>
+      'High demandingness, lower warmth: discipline and obedience come first, with less explaining and listening.';
+
+  @override
+  String get styleDescPermissive =>
+      'High warmth, lower demandingness: a close relationship, with few rules or little follow-through.';
+
+  @override
+  String get styleDescNeglectful =>
+      'Lower warmth and lower demandingness: little day-to-day attention or structure, which is common when a family is busy or under stress.';
+
+  @override
+  String get tryThis => 'Try this';
+
+  @override
+  String get seeAllAdvice => 'See all advice';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get selfCheckTitle => 'Your self-check';
+
+  @override
+  String get notDoneYet => 'Not done yet';
+
+  @override
+  String lastResult(String style, String date) {
+    return 'Last: $style · $date';
+  }
+
+  @override
+  String get takeIt => 'Start';
+
+  @override
+  String get retake => 'Retake';
+
+  @override
+  String get rateParentsTitle => 'Rate your parents';
+
+  @override
+  String get notRatedYet => 'Not rated yet';
+
+  @override
+  String get rateAction => 'Rate';
+
+  @override
+  String get allStyles => 'All styles';
+
+  @override
+  String get allTopics => 'All topics';
+
+  @override
+  String get tagBedtime => 'Bedtime';
+
+  @override
+  String get tagScreens => 'Screens';
+
+  @override
+  String get tagStudy => 'Study';
+
+  @override
+  String get tagFriends => 'Friends';
+
+  @override
+  String get tagChores => 'Chores';
+
+  @override
+  String get tagEmotions => 'Emotions';
+
+  @override
+  String get tagMoney => 'Money';
+
+  @override
+  String get tagRespect => 'Respect';
+
+  @override
+  String get weeklyChallenge => 'This week\'s challenge';
+
+  @override
+  String get adviceEmpty => 'No advice matches these filters.';
 }

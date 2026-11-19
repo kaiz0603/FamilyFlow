@@ -1,10 +1,13 @@
 import 'package:familyflow/app/app.dart';
+import 'package:familyflow/data/repositories/assessment_repository.dart';
 import 'package:familyflow/data/repositories/auth_repository.dart';
+import 'package:familyflow/data/repositories/content_repository.dart';
 import 'package:familyflow/data/repositories/family_repository.dart';
 import 'package:familyflow/data/repositories/profile_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// A stored profile for `users/{uid}` in tests.
 Map<String, Object?> profileDoc({
@@ -29,6 +32,7 @@ class TestApp {
         mockUser: MockUser(uid: signedInUid ?? 'u1', email: 'a@example.com'),
       ),
       db = FakeFirebaseFirestore() {
+    SharedPreferences.setMockInitialValues({});
     if (signedInUid != null && profile != null) {
       db.collection('users').doc(signedInUid).set(profile);
     }
@@ -41,6 +45,8 @@ class TestApp {
     auth: AuthRepository(auth),
     profiles: ProfileRepository(db),
     families: FamilyRepository(db),
+    assessments: AssessmentRepository(db),
+    content: ContentRepository(),
     locale: locale,
   );
 }

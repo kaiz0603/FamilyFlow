@@ -1,11 +1,15 @@
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../app/router.dart';
+import '../../../../domain/models/assessment.dart';
 import '../../../../domain/models/family.dart';
 import '../../../../domain/models/user_profile.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../core/assessment_labels.dart';
 import '../../../core/form_widgets.dart';
 import '../../../core/validators.dart';
 import '../view_models/home_view_model.dart';
@@ -192,6 +196,8 @@ class _FamilyView extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     return _Page(
       children: [
+        const _AssessmentCard(),
+        const SizedBox(height: 16),
         if (vm.isParent) const _InviteCard(),
         if (vm.isParent && vm.pendingRequests.isNotEmpty) ...[
           const SizedBox(height: 16),
@@ -329,6 +335,81 @@ class _InviteCard extends StatelessWidget {
                 ],
               ),
             ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Parent: their self-check. Child: one row per Parent to rate.
+class _AssessmentCard extends StatelessWidget {
+  const _AssessmentCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final vm = context.watch<HomeViewModel>();
+    final me = vm.me!;
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    String status(Assessment? a) => a == null
+        ? l.notDoneYet
+        : l.lastResult(
+            a.style.label(l),
+            DateFormat.yMMMd(locale).format(a.createdAt),
+          );
+
+    final rows = vm.isParent
+        ? [
+            (
+              uid: me.uid,
+              name: me.displayName,
+              title: l.selfCheckTitle,
+              latest: vm.latestSelf,
+            ),
+          ]
+        : [
+            for (final p in vm.parents)
+              (
+                uid: p.uid,
+                name: p.displayName,
+                title: p.displayName,
+                latest: vm.latestByMeFor(p.uid),
+              ),
+          ];
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (!vm.isParent)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: Text(
+                  l.rateParentsTitle,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+            for (final r in rows)
+              ListTile(
+                leading: const Icon(Icons.quiz_outlined),
+                title: Text(r.title),
+                subtitle: Text(
+                  r.latest == null && !vm.isParent
+                      ? l.notRatedYet
+                      : status(r.latest),
+                ),
+                trailing: FilledButton.tonal(
+                  onPressed: () =>
+                      context.push(Routes.assessment(r.uid, r.name)),
+                  child: Text(
+                    r.latest != null
+                        ? l.retake
+                        : (vm.isParent ? l.takeIt : l.rateAction),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

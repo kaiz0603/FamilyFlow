@@ -284,4 +284,153 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get errInvalidInviteCode => '这个邀请码无效，可能已经过期，请向家长要一个新的。';
+
+  @override
+  String get assessmentTitleSelf => '家长自评';
+
+  @override
+  String assessmentTitleChild(String name) {
+    return '你眼中的$name';
+  }
+
+  @override
+  String get assessmentIntro => '共 24 题，约 5 分钟。按平时的真实情况作答，没有对错之分。';
+
+  @override
+  String get assessmentDisclaimer =>
+      '本测评是帮助家庭成员自我反思的工具，不是心理诊断。如果你或家人感到持续的痛苦或不安全，请联系学校辅导老师或专业人士。';
+
+  @override
+  String assessmentChildPrivacy(String name) {
+    return '$name会看到你的总体得分和类型，看不到你每道题的答案。';
+  }
+
+  @override
+  String get startAssessment => '开始';
+
+  @override
+  String get resumeAssessment => '继续上次的进度';
+
+  @override
+  String questionProgress(int current, int total) {
+    return '第 $current / $total 题';
+  }
+
+  @override
+  String get previousQuestion => '上一题';
+
+  @override
+  String get seeResult => '查看结果';
+
+  @override
+  String get resultTitle => '结果';
+
+  @override
+  String get resultLeadSelf => '你的方式更接近';
+
+  @override
+  String resultLeadChild(String name) {
+    return '在你眼中，$name的方式更接近';
+  }
+
+  @override
+  String get dimWarmth => '温暖回应';
+
+  @override
+  String get dimDemandingness => '规则要求';
+
+  @override
+  String get styleAuthoritative => '民主权威型';
+
+  @override
+  String get styleAuthoritarian => '独断专权型';
+
+  @override
+  String get stylePermissive => '宽松溺爱型';
+
+  @override
+  String get styleNeglectful => '忽视冷漠型';
+
+  @override
+  String get styleDescAuthoritative => '温暖回应和规则要求都比较高：既关心孩子的感受，也有清楚、讲道理的规则。';
+
+  @override
+  String get styleDescAuthoritarian => '规则要求高，温暖回应较低：重视纪律和服从，较少解释和倾听。';
+
+  @override
+  String get styleDescPermissive => '温暖回应高，规则要求较低：关系亲近，但规则和跟进较少。';
+
+  @override
+  String get styleDescNeglectful => '温暖回应和规则要求都较低：日常的关心和规则都比较少，常见于忙碌或压力大的家庭。';
+
+  @override
+  String get tryThis => '可以试试';
+
+  @override
+  String get seeAllAdvice => '查看全部建议';
+
+  @override
+  String get done => '完成';
+
+  @override
+  String get selfCheckTitle => '家长自评';
+
+  @override
+  String get notDoneYet => '还没有做';
+
+  @override
+  String lastResult(String style, String date) {
+    return '上次：$style · $date';
+  }
+
+  @override
+  String get takeIt => '开始';
+
+  @override
+  String get retake => '重新测评';
+
+  @override
+  String get rateParentsTitle => '评一评家长';
+
+  @override
+  String get notRatedYet => '还没有评';
+
+  @override
+  String get rateAction => '去评';
+
+  @override
+  String get allStyles => '全部类型';
+
+  @override
+  String get allTopics => '全部话题';
+
+  @override
+  String get tagBedtime => '作息';
+
+  @override
+  String get tagScreens => '屏幕时间';
+
+  @override
+  String get tagStudy => '学习';
+
+  @override
+  String get tagFriends => '朋友';
+
+  @override
+  String get tagChores => '家务';
+
+  @override
+  String get tagEmotions => '情绪';
+
+  @override
+  String get tagMoney => '零用钱';
+
+  @override
+  String get tagRespect => '沟通与尊重';
+
+  @override
+  String get weeklyChallenge => '本周挑战';
+
+  @override
+  String get adviceEmpty => '没有符合条件的建议。';
 }

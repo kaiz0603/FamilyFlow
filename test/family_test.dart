@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:familyflow/app/session.dart';
+import 'package:familyflow/data/repositories/assessment_repository.dart';
 import 'package:familyflow/data/repositories/auth_repository.dart';
 import 'package:familyflow/data/repositories/family_repository.dart';
 import 'package:familyflow/data/repositories/profile_repository.dart';
@@ -10,6 +11,7 @@ import 'package:familyflow/utils/result.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helpers.dart';
 
@@ -33,6 +35,7 @@ void main() {
       (await db.collection(path).get()).docs.length;
 
   setUp(() async {
+    SharedPreferences.setMockInitialValues({});
     db = FakeFirebaseFirestore();
     families = FamilyRepository(db);
     for (final (uid, role) in [
@@ -174,7 +177,11 @@ void main() {
         ),
         profiles: ProfileRepository(db),
       );
-      final vm = HomeViewModel(session: session, families: families);
+      final vm = HomeViewModel(
+        session: session,
+        families: families,
+        assessmentRepo: AssessmentRepository(db),
+      );
       await pumpEventQueue();
       return vm;
     }

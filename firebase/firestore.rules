@@ -47,6 +47,11 @@ service cloud.firestore {
     function validCode(code) {
       return code is string && code.matches('^[A-HJ-NP-Z2-9]{6}$');
     }
+    // The SDK re-sends a write whose acknowledgement was lost; the replayed set()
+    // arrives as an update that changes only its server timestamp.
+    function isReplay() {
+      return onlyChanged(['createdAt']) && request.resource.data.createdAt == request.time;
+    }
 
     // ---- users/{uid}: private profile ----
     match /users/{uid} {
@@ -79,6 +84,19 @@ service cloud.firestore {
       allow read, delete: if isOwner(uid);
       allow create: if isOwner(uid) && validNewProfile(request.resource.data);
       allow update: if isOwner(uid) && validProfileUpdate(request.resource.data);
+
+      // Item answers: the rater only, never Parents (docs/adr/0006).
+      match /answers/{assessmentId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && exactKeys(request.resource.data, ['familyId', 'answers', 'contentVersion', 'createdAt'])
+          && request.resource.data.familyId is string
+          && request.resource.data.answers is map
+          && request.resource.data.answers.size() == 24
+          && request.resource.data.contentVersion is string
+          && request.resource.data.createdAt == request.time;
+        allow update: if isReplay();
+      }
     }
 
     // ---- invites/{code}: Invite Code lookup ----
@@ -172,6 +190,46 @@ service cloud.firestore {
           && onlyChanged(['status'])
           && request.resource.data.status in ['approved', 'rejected'];
         allow delete: if isOwner(reqUid) || isParentMember(fid);
+      }
+
+      // Scores only; the item answers live in users/{uid}/answers.
+      match /assessments/{assessmentId} {
+        function memberRole(uid) {
+          return get(memberPath(fid, uid)).data.role;
+        }
+        function score(v) {
+          return v is int && v >= 0 && v <= 100;
+        }
+        // Mirrors lib/domain/assessment/scoring.dart styleFor().
+        function quadrant(w, d) {
+          return w >= 50
+            ? (d >= 50 ? 'authoritative' : 'permissive')
+            : (d >= 50 ? 'authoritarian' : 'neglectful');
+        }
+        function validAssessment(a) {
+          return exactKeys(a, ['raterId', 'subjectParentId', 'perspective', 'warmth', 'demandingness', 'style', 'contentVersion', 'createdAt'])
+            && a.raterId == request.auth.uid
+            && score(a.warmth) && score(a.demandingness)
+            && a.style == quadrant(a.warmth, a.demandingness)
+            && a.contentVersion is string && a.contentVersion.matches('^[0-9]+[.][0-9]+$')
+            && a.createdAt == request.time
+            && ((a.perspective == 'self'
+                  && memberRole(request.auth.uid) == 'parent'
+                  && a.subjectParentId == request.auth.uid)
+              || (a.perspective == 'child_view'
+                  && memberRole(request.auth.uid) == 'child'
+                  && a.subjectParentId is string
+                  && exists(memberPath(fid, a.subjectParentId))
+                  && memberRole(a.subjectParentId) == 'parent'));
+        }
+
+        allow read: if isMember(fid);
+        allow create: if isMember(fid) && validAssessment(request.resource.data);
+        allow update: if isMember(fid)
+          && resource.data.raterId == request.auth.uid
+          && isReplay();
+        allow delete: if isParentMember(fid)
+          || (signedIn() && resource.data.raterId == request.auth.uid);
       }
 
       match /activity/{activityId} {

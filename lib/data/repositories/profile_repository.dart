@@ -47,7 +47,16 @@ class ProfileRepository {
             .update({'displayName': ?displayName?.trim(), 'locale': ?locale}),
   );
 
-  Future<Result<void>> delete(String uid) => guard(() => _doc(uid).delete());
+  /// Deletes the private answers first, then the profile (docs/PRIVACY.md).
+  Future<Result<void>> delete(String uid) => guard(() async {
+    final answers = await _doc(uid).collection('answers').get();
+    final batch = _db.batch();
+    for (final d in answers.docs) {
+      batch.delete(d.reference);
+    }
+    batch.delete(_doc(uid));
+    await batch.commit();
+  });
 
   static UserProfile _fromDoc(String uid, Map<String, dynamic> d) =>
       UserProfile(

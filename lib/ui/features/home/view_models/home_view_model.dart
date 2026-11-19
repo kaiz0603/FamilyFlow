@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 import '../../../../app/session.dart';
+import '../../../../data/repositories/assessment_repository.dart';
 import '../../../../data/repositories/family_repository.dart';
+import '../../../../domain/models/assessment.dart';
 import '../../../../domain/models/family.dart';
 import '../../../../domain/models/user_profile.dart';
 import '../../../../utils/result.dart';
@@ -13,13 +15,18 @@ enum HomeMode { loading, noFamily, pending, rejected, inFamily }
 /// The Family part of Home: set up / waiting / the Family itself.
 /// Follows the profile's familyId and pendingFamilyId from [Session].
 class HomeViewModel extends ChangeNotifier {
-  HomeViewModel({required this._session, required this._families}) {
+  HomeViewModel({
+    required this._session,
+    required this._families,
+    required this._assessmentRepo,
+  }) {
     _session.addListener(_follow);
     _follow();
   }
 
   final Session _session;
   final FamilyRepository _families;
+  final AssessmentRepository _assessmentRepo;
   final List<StreamSubscription<Object?>> _subs = [];
   String? _followedKey;
 
@@ -37,6 +44,27 @@ class HomeViewModel extends ChangeNotifier {
 
   Invite? _invite;
   Invite? get invite => _invite;
+
+  List<Assessment> _assessments = const [];
+
+  List<Member> get parents => [
+    for (final m in _members)
+      if (m.role == Role.parent) m,
+  ];
+
+  /// Newest first, so the first match is the latest.
+  Assessment? get latestSelf => _assessments
+      .where((a) => a.perspective == Perspective.self && a.raterId == me?.uid)
+      .firstOrNull;
+
+  Assessment? latestByMeFor(String parentUid) => _assessments
+      .where(
+        (a) =>
+            a.perspective == Perspective.childView &&
+            a.raterId == me?.uid &&
+            a.subjectParentId == parentUid,
+      )
+      .firstOrNull;
 
   bool _busy = false;
   bool get busy => _busy;
@@ -58,6 +86,7 @@ class HomeViewModel extends ChangeNotifier {
     _members = const [];
     _requests = const [];
     _invite = null;
+    _assessments = const [];
 
     if (me.familyId case final fid?) {
       _mode = HomeMode.loading;
@@ -74,6 +103,12 @@ class HomeViewModel extends ChangeNotifier {
             if (m == null) return _lostFamily(me.uid);
             _members = m;
             _update();
+          }),
+        )
+        ..add(
+          _assessmentRepo.watchFamily(fid).listen((a) {
+            _assessments = a;
+            notifyListeners();
           }),
         );
       if (me.role == Role.parent) {

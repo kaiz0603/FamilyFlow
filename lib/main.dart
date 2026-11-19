@@ -7,7 +7,9 @@ import 'package:material_ui/material_ui.dart';
 import 'app/app.dart';
 import 'config/env.dart';
 import 'config/firebase_options.dart';
+import 'data/repositories/assessment_repository.dart';
 import 'data/repositories/auth_repository.dart';
+import 'data/repositories/content_repository.dart';
 import 'data/repositories/family_repository.dart';
 import 'data/repositories/profile_repository.dart';
 
@@ -27,6 +29,8 @@ Future<void> main() async {
       auth: AuthRepository(FirebaseAuth.instance),
       profiles: ProfileRepository(FirebaseFirestore.instance),
       families: FamilyRepository(FirebaseFirestore.instance),
+      assessments: AssessmentRepository(FirebaseFirestore.instance),
+      content: ContentRepository(),
     ),
   );
 }

@@ -212,7 +212,7 @@ class FamilyRepository {
     final batch = _db.batch()
       ..update(_user(uid), {'familyId': fid, 'pendingFamilyId': null})
       ..delete(_requests(fid).doc(uid));
-    _addActivity(batch, fid, uid, 'member_joined');
+    addActivity(_db, batch, fid, uid, 'member_joined');
     return batch.commit();
   });
 
@@ -239,17 +239,25 @@ class FamilyRepository {
   Future<Result<void>> removeMember(String fid, String byUid, String uid) =>
       guard(() {
         final batch = _db.batch()..delete(_members(fid).doc(uid));
-        _addActivity(batch, fid, byUid, 'member_left', refId: uid);
+        addActivity(_db, batch, fid, byUid, 'member_left', refId: uid);
         return batch.commit();
       });
 
-  Future<Result<void>> leave(String fid, String uid) => guard(() {
+  /// Leaving removes our own Assessments from the Family (docs/PRIVACY.md).
+  Future<Result<void>> leave(String fid, String uid) => guard(() async {
+    final mine = await _family(fid)
+        .collection('assessments')
+        .where('raterId', isEqualTo: uid)
+        .get();
     final batch = _db.batch();
-    _addActivity(batch, fid, uid, 'member_left');
+    for (final d in mine.docs) {
+      batch.delete(d.reference);
+    }
+    addActivity(_db, batch, fid, uid, 'member_left');
     batch
       ..delete(_members(fid).doc(uid))
       ..update(_user(uid), {'familyId': null});
-    return batch.commit();
+    await batch.commit();
   });
 
   /// The last Parent leaving: delete everything under the Family.
@@ -260,7 +268,7 @@ class FamilyRepository {
       for (final d
           in (await _invites.where('familyId', isEqualTo: fid).get()).docs)
         d.reference,
-      for (final sub in ['activity', 'joinRequests'])
+      for (final sub in ['activity', 'joinRequests', 'assessments'])
         for (final d in (await _family(fid).collection(sub).get()).docs)
           d.reference,
       for (final d in (await _members(fid).get()).docs)
@@ -297,19 +305,24 @@ class FamilyRepository {
 
   // ---- helpers ----
 
-  void _addActivity(
+  /// Adds an Activity entry to [batch] (shared with AssessmentRepository).
+  static void addActivity(
+    FirebaseFirestore db,
     WriteBatch batch,
     String fid,
     String uid,
     String type, {
     String? refId,
-  }) => batch.set(_family(fid).collection('activity').doc(), {
-    'type': type,
-    'actorId': uid,
-    'refId': refId,
-    'createdAt': FieldValue.serverTimestamp(),
-    'expireAt': Timestamp.fromDate(DateTime.now().add(activityLifetime)),
-  });
+  }) => batch.set(
+    db.collection('families').doc(fid).collection('activity').doc(),
+    {
+      'type': type,
+      'actorId': uid,
+      'refId': refId,
+      'createdAt': FieldValue.serverTimestamp(),
+      'expireAt': Timestamp.fromDate(DateTime.now().add(activityLifetime)),
+    },
+  );
 
   static JoinRequest _request(String uid, Map<String, dynamic> d) =>
       JoinRequest(

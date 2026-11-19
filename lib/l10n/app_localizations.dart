@@ -631,6 +631,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That code doesn\'t work. It may have expired — ask for a new one.'**
   String get errInvalidInviteCode;
+
+  /// No description provided for @assessmentTitleSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'Parenting self-check'**
+  String get assessmentTitleSelf;
+
+  /// No description provided for @assessmentTitleChild.
+  ///
+  /// In en, this message translates to:
+  /// **'How you see {name}'**
+  String assessmentTitleChild(String name);
+
+  /// No description provided for @assessmentIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'24 statements, about 5 minutes. Answer how things usually are. There are no right or wrong answers.'**
+  String get assessmentIntro;
+
+  /// No description provided for @assessmentDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a self-reflection tool for families, not a psychological assessment. If you or someone in your family feels persistently distressed or unsafe, please reach out to a school counsellor or a professional.'**
+  String get assessmentDisclaimer;
+
+  /// No description provided for @assessmentChildPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} will see your overall scores and style, never your individual answers.'**
+  String assessmentChildPrivacy(String name);
+
+  /// No description provided for @startAssessment.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get startAssessment;
+
+  /// No description provided for @resumeAssessment.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue where you left off'**
+  String get resumeAssessment;
+
+  /// No description provided for @questionProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} of {total}'**
+  String questionProgress(int current, int total);
+
+  /// No description provided for @previousQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get previousQuestion;
+
+  /// No description provided for @seeResult.
+  ///
+  /// In en, this message translates to:
+  /// **'See my result'**
+  String get seeResult;
+
+  /// No description provided for @resultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your result'**
+  String get resultTitle;
+
+  /// No description provided for @resultLeadSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'Your style is closest to'**
+  String get resultLeadSelf;
+
+  /// No description provided for @resultLeadChild.
+  ///
+  /// In en, this message translates to:
+  /// **'In your eyes, {name}\'s style is closest to'**
+  String resultLeadChild(String name);
+
+  /// No description provided for @dimWarmth.
+  ///
+  /// In en, this message translates to:
+  /// **'Warmth'**
+  String get dimWarmth;
+
+  /// No description provided for @dimDemandingness.
+  ///
+  /// In en, this message translates to:
+  /// **'Demandingness'**
+  String get dimDemandingness;
+
+  /// No description provided for @styleAuthoritative.
+  ///
+  /// In en, this message translates to:
+  /// **'Authoritative'**
+  String get styleAuthoritative;
+
+  /// No description provided for @styleAuthoritarian.
+  ///
+  /// In en, this message translates to:
+  /// **'Authoritarian'**
+  String get styleAuthoritarian;
+
+  /// No description provided for @stylePermissive.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissive'**
+  String get stylePermissive;
+
+  /// No description provided for @styleNeglectful.
+  ///
+  /// In en, this message translates to:
+  /// **'Neglectful'**
+  String get styleNeglectful;
+
+  /// No description provided for @styleDescAuthoritative.
+  ///
+  /// In en, this message translates to:
+  /// **'High warmth and high demandingness: caring about feelings while keeping clear rules that are explained.'**
+  String get styleDescAuthoritative;
+
+  /// No description provided for @styleDescAuthoritarian.
+  ///
+  /// In en, this message translates to:
+  /// **'High demandingness, lower warmth: discipline and obedience come first, with less explaining and listening.'**
+  String get styleDescAuthoritarian;
+
+  /// No description provided for @styleDescPermissive.
+  ///
+  /// In en, this message translates to:
+  /// **'High warmth, lower demandingness: a close relationship, with few rules or little follow-through.'**
+  String get styleDescPermissive;
+
+  /// No description provided for @styleDescNeglectful.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower warmth and lower demandingness: little day-to-day attention or structure, which is common when a family is busy or under stress.'**
+  String get styleDescNeglectful;
+
+  /// No description provided for @tryThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Try this'**
+  String get tryThis;
+
+  /// No description provided for @seeAllAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'See all advice'**
+  String get seeAllAdvice;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @selfCheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your self-check'**
+  String get selfCheckTitle;
+
+  /// No description provided for @notDoneYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not done yet'**
+  String get notDoneYet;
+
+  /// No description provided for @lastResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Last: {style} · {date}'**
+  String lastResult(String style, String date);
+
+  /// No description provided for @takeIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get takeIt;
+
+  /// No description provided for @retake.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake'**
+  String get retake;
+
+  /// No description provided for @rateParentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate your parents'**
+  String get rateParentsTitle;
+
+  /// No description provided for @notRatedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not rated yet'**
+  String get notRatedYet;
+
+  /// No description provided for @rateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get rateAction;
+
+  /// No description provided for @allStyles.
+  ///
+  /// In en, this message translates to:
+  /// **'All styles'**
+  String get allStyles;
+
+  /// No description provided for @allTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'All topics'**
+  String get allTopics;
+
+  /// No description provided for @tagBedtime.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedtime'**
+  String get tagBedtime;
+
+  /// No description provided for @tagScreens.
+  ///
+  /// In en, this message translates to:
+  /// **'Screens'**
+  String get tagScreens;
+
+  /// No description provided for @tagStudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Study'**
+  String get tagStudy;
+
+  /// No description provided for @tagFriends.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get tagFriends;
+
+  /// No description provided for @tagChores.
+  ///
+  /// In en, this message translates to:
+  /// **'Chores'**
+  String get tagChores;
+
+  /// No description provided for @tagEmotions.
+  ///
+  /// In en, this message translates to:
+  /// **'Emotions'**
+  String get tagEmotions;
+
+  /// No description provided for @tagMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get tagMoney;
+
+  /// No description provided for @tagRespect.
+  ///
+  /// In en, this message translates to:
+  /// **'Respect'**
+  String get tagRespect;
+
+  /// No description provided for @weeklyChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'This week\'s challenge'**
+  String get weeklyChallenge;
+
+  /// No description provided for @adviceEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No advice matches these filters.'**
+  String get adviceEmpty;
 }
 
 class _AppLocalizationsDelegate

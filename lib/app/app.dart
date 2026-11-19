@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../data/repositories/assessment_repository.dart';
 import '../data/repositories/auth_repository.dart';
+import '../data/repositories/content_repository.dart';
 import '../data/repositories/family_repository.dart';
 import '../data/repositories/profile_repository.dart';
 import '../l10n/app_localizations.dart';
@@ -20,12 +22,16 @@ class FamilyFlowApp extends StatefulWidget {
     required this.auth,
     required this.profiles,
     required this.families,
+    required this.assessments,
+    required this.content,
     this.locale,
   });
 
   final AuthRepository auth;
   final ProfileRepository profiles;
   final FamilyRepository families;
+  final AssessmentRepository assessments;
+  final ContentRepository content;
 
   /// Forces a locale (tests). Otherwise: the profile's language, else the device's.
   final Locale? locale;
@@ -55,6 +61,8 @@ class _FamilyFlowAppState extends State<FamilyFlowApp> {
         Provider.value(value: widget.auth),
         Provider.value(value: widget.profiles),
         Provider.value(value: widget.families),
+        Provider.value(value: widget.assessments),
+        Provider.value(value: widget.content),
         ChangeNotifierProvider.value(value: _session),
       ],
       child: ListenableBuilder(

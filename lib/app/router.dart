@@ -1,10 +1,16 @@
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart' show ValueKey;
 import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
 import '../ui/core/placeholder_screen.dart';
 import '../ui/core/shell_scaffold.dart';
+import '../domain/models/assessment.dart';
 import '../ui/core/splash_screen.dart';
+import '../ui/features/advice/view_models/advice_view_model.dart';
+import '../ui/features/advice/views/advice_screen.dart';
+import '../ui/features/assessment/view_models/assessment_view_model.dart';
+import '../ui/features/assessment/views/assessment_screen.dart';
 import '../ui/features/home/view_models/home_view_model.dart';
 import '../ui/features/home/views/home_screen.dart';
 import '../ui/features/onboarding/view_models/auth_view_model.dart';
@@ -27,6 +33,10 @@ abstract final class Routes {
   static const compare = '/compare';
   static const advice = '/advice';
   static const settings = '/settings';
+
+  /// `/assessment/<subjectParentId>?name=<display name>`
+  static String assessment(String subjectParentId, String name) =>
+      '/assessment/$subjectParentId?name=${Uri.encodeQueryComponent(name)}';
 
   static const signedOutOnly = {welcome, signIn, signUp};
 }
@@ -79,6 +89,19 @@ GoRouter createRouter(Session session) => GoRouter(
         child: const ProfileSetupScreen(),
       ),
     ),
+    GoRoute(
+      path: '/assessment/:subject',
+      builder: (context, state) => ChangeNotifierProvider(
+        create: (c) => AssessmentViewModel(
+          session: c.read(),
+          content: c.read(),
+          assessments: c.read(),
+          subjectParentId: state.pathParameters['subject']!,
+          subjectName: state.uri.queryParameters['name'] ?? '',
+        ),
+        child: const AssessmentScreen(),
+      ),
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => ShellScaffold(shell: shell),
       branches: [
@@ -87,15 +110,37 @@ GoRouter createRouter(Session session) => GoRouter(
             GoRoute(
               path: Routes.home,
               builder: (context, _) => ChangeNotifierProvider(
-                create: (c) =>
-                    HomeViewModel(session: c.read(), families: c.read()),
+                create: (c) => HomeViewModel(
+                  session: c.read(),
+                  families: c.read(),
+                  assessmentRepo: c.read(),
+                ),
                 child: const HomeScreen(),
               ),
             ),
           ],
         ),
         _placeholderTab(Routes.compare, (l) => l.tabCompare),
-        _placeholderTab(Routes.advice, (l) => l.tabAdvice),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.advice,
+              builder: (context, state) {
+                final style = ParentingStyle.values
+                    .asNameMap()[state.uri.queryParameters['style']];
+                return ChangeNotifierProvider(
+                  key: ValueKey(style),
+                  create: (c) => AdviceViewModel(
+                    session: c.read(),
+                    content: c.read(),
+                    style: style,
+                  ),
+                  child: const AdviceScreen(),
+                );
+              },
+            ),
+          ],
+        ),
         StatefulShellBranch(
           routes: [
             GoRoute(
