@@ -9,11 +9,39 @@ import '../view_models/settings_view_model.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
+  Future<void> _confirmLeave(BuildContext context) async {
+    final l = AppLocalizations.of(context);
+    final vm = context.read<SettingsViewModel>();
+    final isParent = vm.profile?.role == Role.parent;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l.leaveFamily),
+        content: Text(
+          isParent
+              ? [l.leaveFamilyBody, l.leaveFamilyLastParentBody].join('\n\n')
+              : l.leaveFamilyBody,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l.leaveFamily),
+          ),
+        ],
+      ),
+    );
+    if (ok == true) await vm.leaveFamily();
+  }
+
   Future<void> _confirmDelete(BuildContext context) async {
     final vm = context.read<SettingsViewModel>();
     final password = await showDialog<String>(
       context: context,
-      builder: (_) => const _DeleteAccountDialog(),
+      builder: (_) => _DeleteAccountDialog(inFamily: vm.inFamily),
     );
     if (password != null) await vm.deleteAccount(password);
   }
@@ -60,6 +88,12 @@ class SettingsScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ErrorLine(vm.error),
           ),
+          if (vm.inFamily)
+            ListTile(
+              leading: const Icon(Icons.group_off_outlined),
+              title: Text(l.leaveFamily),
+              onTap: vm.busy ? null : () => _confirmLeave(context),
+            ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: Text(l.signOut),
@@ -78,7 +112,9 @@ class SettingsScreen extends StatelessWidget {
 
 /// Returns the password to re-authenticate with, or null on cancel.
 class _DeleteAccountDialog extends StatefulWidget {
-  const _DeleteAccountDialog();
+  const _DeleteAccountDialog({required this.inFamily});
+
+  final bool inFamily;
 
   @override
   State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
@@ -103,6 +139,10 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(l.deleteAccountBody),
+          if (widget.inFamily) ...[
+            const SizedBox(height: 8),
+            Text(l.deleteAccountFamilyNote),
+          ],
           const SizedBox(height: 12),
           TextField(
             controller: _password,

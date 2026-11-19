@@ -79,5 +79,60 @@
   "errTooManyRequests": "Too many attempts. Wait a moment and try again.",
   "errRequiresRecentLogin": "For your security, sign in again and retry.",
   "errPermissionDenied": "You don't have permission to do that.",
-  "errUnknown": "Something went wrong. Please try again."
+  "errUnknown": "Something went wrong. Please try again.",
+  "familySetupTitle": "Set up your family",
+  "familySetupParentBody": "Create a family and invite your children, or join your partner's family with their invite code.",
+  "familySetupChildBody": "Ask a parent for your family's invite code, then send a request to join.",
+  "createFamily": "Create family",
+  "familyName": "Family name",
+  "familyNameHint": "e.g. The Lins",
+  "joinFamily": "Join with a code",
+  "inviteCode": "Invite code",
+  "sendRequest": "Send request",
+  "requestPendingTitle": "Waiting for approval",
+  "requestPendingBody": "A parent in the family needs to approve your request. You'll move in automatically.",
+  "cancelRequest": "Cancel request",
+  "requestRejectedTitle": "Request declined",
+  "requestRejectedBody": "A parent declined your request. Check the code with them and try again.",
+  "inviteTitle": "Invite family members",
+  "inviteBody": "Share this code. You'll approve each person before they join.",
+  "inviteExpires": "Expires {date}",
+  "@inviteExpires": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "generateCode": "Get an invite code",
+  "newCode": "New code",
+  "share": "Share",
+  "inviteShareText": "Join our family on FamilyFlow with invite code {code}",
+  "@inviteShareText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "pendingRequestsTitle": "Waiting to join",
+  "approve": "Approve",
+  "reject": "Decline",
+  "membersTitle": "Members",
+  "youSuffix": "(you)",
+  "removeMember": "Remove",
+  "removeMemberTitle": "Remove {name}?",
+  "@removeMemberTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeMemberBody": "They lose access to this family's results and challenges.",
+  "leaveFamily": "Leave family",
+  "leaveFamilyBody": "You'll stop seeing this family's results and challenges. Your own results here are removed.",
+  "leaveFamilyLastParentBody": "If you are the last parent, the family is removed for everyone.",
+  "deleteAccountFamilyNote": "You will also leave your family. If you are its last parent, the family is removed for everyone.",
+  "errInvalidInviteCode": "That code doesn't work. It may have expired — ask for a new one."
 }

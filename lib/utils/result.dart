@@ -27,6 +27,7 @@ enum AppError {
   tooManyRequests,
   requiresRecentLogin,
   permissionDenied,
+  invalidInviteCode,
   unknown;
 
   static AppError from(Object e) => switch (e) {

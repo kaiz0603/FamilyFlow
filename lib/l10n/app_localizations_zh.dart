@@ -176,4 +176,112 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get errUnknown => '出了点问题，请重试。';
+
+  @override
+  String get familySetupTitle => '建立你的家庭';
+
+  @override
+  String get familySetupParentBody => '创建一个家庭并邀请孩子加入，或者用伴侣给你的邀请码加入他们的家庭。';
+
+  @override
+  String get familySetupChildBody => '向家长要家庭的邀请码，然后发送加入申请。';
+
+  @override
+  String get createFamily => '创建家庭';
+
+  @override
+  String get familyName => '家庭名称';
+
+  @override
+  String get familyNameHint => '例如：林家';
+
+  @override
+  String get joinFamily => '用邀请码加入';
+
+  @override
+  String get inviteCode => '邀请码';
+
+  @override
+  String get sendRequest => '发送申请';
+
+  @override
+  String get requestPendingTitle => '等待批准';
+
+  @override
+  String get requestPendingBody => '需要家里的一位家长批准你的申请，批准后会自动进入家庭。';
+
+  @override
+  String get cancelRequest => '取消申请';
+
+  @override
+  String get requestRejectedTitle => '申请未通过';
+
+  @override
+  String get requestRejectedBody => '家长没有通过你的申请。请和他们确认邀请码后再试。';
+
+  @override
+  String get inviteTitle => '邀请家人';
+
+  @override
+  String get inviteBody => '把这个邀请码发给家人。每个人加入前都需要你批准。';
+
+  @override
+  String inviteExpires(String date) {
+    return '$date 到期';
+  }
+
+  @override
+  String get generateCode => '获取邀请码';
+
+  @override
+  String get newCode => '换一个';
+
+  @override
+  String get share => '分享';
+
+  @override
+  String inviteShareText(String code) {
+    return '用邀请码 $code 加入我们在 FamilyFlow 上的家庭';
+  }
+
+  @override
+  String get pendingRequestsTitle => '等待加入';
+
+  @override
+  String get approve => '批准';
+
+  @override
+  String get reject => '拒绝';
+
+  @override
+  String get membersTitle => '成员';
+
+  @override
+  String get youSuffix => '（你）';
+
+  @override
+  String get removeMember => '移除';
+
+  @override
+  String removeMemberTitle(String name) {
+    return '移除 $name？';
+  }
+
+  @override
+  String get removeMemberBody => '对方将无法再查看这个家庭的结果和挑战。';
+
+  @override
+  String get leaveFamily => '退出家庭';
+
+  @override
+  String get leaveFamilyBody => '你将不再看到这个家庭的结果和挑战，你在这里的结果也会被删除。';
+
+  @override
+  String get leaveFamilyLastParentBody => '如果你是最后一位家长，这个家庭会对所有人删除。';
+
+  @override
+  String get deleteAccountFamilyNote => '你也会退出家庭。如果你是最后一位家长，这个家庭会对所有人删除。';
+
+  @override
+  String get errInvalidInviteCode => '这个邀请码无效，可能已经过期，请向家长要一个新的。';
 }

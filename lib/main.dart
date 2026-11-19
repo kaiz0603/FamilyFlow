@@ -8,6 +8,7 @@ import 'app/app.dart';
 import 'config/env.dart';
 import 'config/firebase_options.dart';
 import 'data/repositories/auth_repository.dart';
+import 'data/repositories/family_repository.dart';
 import 'data/repositories/profile_repository.dart';
 
 Future<void> main() async {
@@ -25,6 +26,7 @@ Future<void> main() async {
     FamilyFlowApp(
       auth: AuthRepository(FirebaseAuth.instance),
       profiles: ProfileRepository(FirebaseFirestore.instance),
+      families: FamilyRepository(FirebaseFirestore.instance),
     ),
   );
 }

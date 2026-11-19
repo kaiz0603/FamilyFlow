@@ -57,5 +57,6 @@ class ProfileRepository {
         birthYear: d['birthYear'] as int,
         locale: d['locale'] as String,
         familyId: d['familyId'] as String?,
+        pendingFamilyId: d['pendingFamilyId'] as String?,
       );
 }

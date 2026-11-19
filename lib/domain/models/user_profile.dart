@@ -20,6 +20,7 @@ class UserProfile {
     required this.birthYear,
     required this.locale,
     this.familyId,
+    this.pendingFamilyId,
   });
 
   final String uid;
@@ -30,6 +31,9 @@ class UserProfile {
   /// `zh` or `en`.
   final String locale;
   final String? familyId;
+
+  /// The Family this user has a pending Join Request with.
+  final String? pendingFamilyId;
 
   static const maxNameLength = 30;
   static const locales = ['zh', 'en'];

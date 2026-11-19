@@ -11,6 +11,7 @@ extension AppErrorText on AppError {
     AppError.tooManyRequests => l.errTooManyRequests,
     AppError.requiresRecentLogin => l.errRequiresRecentLogin,
     AppError.permissionDenied => l.errPermissionDenied,
+    AppError.invalidInviteCode => l.errInvalidInviteCode,
     AppError.unknown => l.errUnknown,
   };
 }

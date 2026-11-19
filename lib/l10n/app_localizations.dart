@@ -427,6 +427,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errUnknown;
+
+  /// No description provided for @familySetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your family'**
+  String get familySetupTitle;
+
+  /// No description provided for @familySetupParentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a family and invite your children, or join your partner\'s family with their invite code.'**
+  String get familySetupParentBody;
+
+  /// No description provided for @familySetupChildBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a parent for your family\'s invite code, then send a request to join.'**
+  String get familySetupChildBody;
+
+  /// No description provided for @createFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Create family'**
+  String get createFamily;
+
+  /// No description provided for @familyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Family name'**
+  String get familyName;
+
+  /// No description provided for @familyNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. The Lins'**
+  String get familyNameHint;
+
+  /// No description provided for @joinFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Join with a code'**
+  String get joinFamily;
+
+  /// No description provided for @inviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code'**
+  String get inviteCode;
+
+  /// No description provided for @sendRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request'**
+  String get sendRequest;
+
+  /// No description provided for @requestPendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for approval'**
+  String get requestPendingTitle;
+
+  /// No description provided for @requestPendingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A parent in the family needs to approve your request. You\'ll move in automatically.'**
+  String get requestPendingBody;
+
+  /// No description provided for @cancelRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel request'**
+  String get cancelRequest;
+
+  /// No description provided for @requestRejectedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request declined'**
+  String get requestRejectedTitle;
+
+  /// No description provided for @requestRejectedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A parent declined your request. Check the code with them and try again.'**
+  String get requestRejectedBody;
+
+  /// No description provided for @inviteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite family members'**
+  String get inviteTitle;
+
+  /// No description provided for @inviteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this code. You\'ll approve each person before they join.'**
+  String get inviteBody;
+
+  /// No description provided for @inviteExpires.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires {date}'**
+  String inviteExpires(String date);
+
+  /// No description provided for @generateCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Get an invite code'**
+  String get generateCode;
+
+  /// No description provided for @newCode.
+  ///
+  /// In en, this message translates to:
+  /// **'New code'**
+  String get newCode;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @inviteShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Join our family on FamilyFlow with invite code {code}'**
+  String inviteShareText(String code);
+
+  /// No description provided for @pendingRequestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting to join'**
+  String get pendingRequestsTitle;
+
+  /// No description provided for @approve.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get approve;
+
+  /// No description provided for @reject.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get reject;
+
+  /// No description provided for @membersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get membersTitle;
+
+  /// No description provided for @youSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'(you)'**
+  String get youSuffix;
+
+  /// No description provided for @removeMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeMember;
+
+  /// No description provided for @removeMemberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}?'**
+  String removeMemberTitle(String name);
+
+  /// No description provided for @removeMemberBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They lose access to this family\'s results and challenges.'**
+  String get removeMemberBody;
+
+  /// No description provided for @leaveFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave family'**
+  String get leaveFamily;
+
+  /// No description provided for @leaveFamilyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll stop seeing this family\'s results and challenges. Your own results here are removed.'**
+  String get leaveFamilyBody;
+
+  /// No description provided for @leaveFamilyLastParentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If you are the last parent, the family is removed for everyone.'**
+  String get leaveFamilyLastParentBody;
+
+  /// No description provided for @deleteAccountFamilyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You will also leave your family. If you are its last parent, the family is removed for everyone.'**
+  String get deleteAccountFamilyNote;
+
+  /// No description provided for @errInvalidInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'That code doesn\'t work. It may have expired — ask for a new one.'**
+  String get errInvalidInviteCode;
 }
 
 class _AppLocalizationsDelegate

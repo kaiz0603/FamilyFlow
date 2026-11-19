@@ -186,4 +186,122 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get familySetupTitle => 'Set up your family';
+
+  @override
+  String get familySetupParentBody =>
+      'Create a family and invite your children, or join your partner\'s family with their invite code.';
+
+  @override
+  String get familySetupChildBody =>
+      'Ask a parent for your family\'s invite code, then send a request to join.';
+
+  @override
+  String get createFamily => 'Create family';
+
+  @override
+  String get familyName => 'Family name';
+
+  @override
+  String get familyNameHint => 'e.g. The Lins';
+
+  @override
+  String get joinFamily => 'Join with a code';
+
+  @override
+  String get inviteCode => 'Invite code';
+
+  @override
+  String get sendRequest => 'Send request';
+
+  @override
+  String get requestPendingTitle => 'Waiting for approval';
+
+  @override
+  String get requestPendingBody =>
+      'A parent in the family needs to approve your request. You\'ll move in automatically.';
+
+  @override
+  String get cancelRequest => 'Cancel request';
+
+  @override
+  String get requestRejectedTitle => 'Request declined';
+
+  @override
+  String get requestRejectedBody =>
+      'A parent declined your request. Check the code with them and try again.';
+
+  @override
+  String get inviteTitle => 'Invite family members';
+
+  @override
+  String get inviteBody =>
+      'Share this code. You\'ll approve each person before they join.';
+
+  @override
+  String inviteExpires(String date) {
+    return 'Expires $date';
+  }
+
+  @override
+  String get generateCode => 'Get an invite code';
+
+  @override
+  String get newCode => 'New code';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String inviteShareText(String code) {
+    return 'Join our family on FamilyFlow with invite code $code';
+  }
+
+  @override
+  String get pendingRequestsTitle => 'Waiting to join';
+
+  @override
+  String get approve => 'Approve';
+
+  @override
+  String get reject => 'Decline';
+
+  @override
+  String get membersTitle => 'Members';
+
+  @override
+  String get youSuffix => '(you)';
+
+  @override
+  String get removeMember => 'Remove';
+
+  @override
+  String removeMemberTitle(String name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String get removeMemberBody =>
+      'They lose access to this family\'s results and challenges.';
+
+  @override
+  String get leaveFamily => 'Leave family';
+
+  @override
+  String get leaveFamilyBody =>
+      'You\'ll stop seeing this family\'s results and challenges. Your own results here are removed.';
+
+  @override
+  String get leaveFamilyLastParentBody =>
+      'If you are the last parent, the family is removed for everyone.';
+
+  @override
+  String get deleteAccountFamilyNote =>
+      'You will also leave your family. If you are its last parent, the family is removed for everyone.';
+
+  @override
+  String get errInvalidInviteCode =>
+      'That code doesn\'t work. It may have expired — ask for a new one.';
 }

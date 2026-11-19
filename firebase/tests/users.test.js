@@ -78,7 +78,7 @@ test('role and birth year are fixed after sign-up', async () => {
   await assertFails(updateDoc(ref, { createdAt: serverTimestamp() }));
 });
 
-test('joining a family is not allowed yet (M2 adds the membership check)', async () => {
+test('familyId cannot point at a family the user is not a member of', async () => {
   await seed('alice', profile());
   await assertFails(updateDoc(doc(db('alice'), 'users/alice'), { familyId: 'f1' }));
 });

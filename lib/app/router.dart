@@ -5,6 +5,8 @@ import '../l10n/app_localizations.dart';
 import '../ui/core/placeholder_screen.dart';
 import '../ui/core/shell_scaffold.dart';
 import '../ui/core/splash_screen.dart';
+import '../ui/features/home/view_models/home_view_model.dart';
+import '../ui/features/home/views/home_screen.dart';
 import '../ui/features/onboarding/view_models/auth_view_model.dart';
 import '../ui/features/onboarding/view_models/profile_setup_view_model.dart';
 import '../ui/features/onboarding/views/profile_setup_screen.dart';
@@ -80,7 +82,18 @@ GoRouter createRouter(Session session) => GoRouter(
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => ShellScaffold(shell: shell),
       branches: [
-        _placeholderTab(Routes.home, (l) => l.tabHome),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.home,
+              builder: (context, _) => ChangeNotifierProvider(
+                create: (c) =>
+                    HomeViewModel(session: c.read(), families: c.read()),
+                child: const HomeScreen(),
+              ),
+            ),
+          ],
+        ),
         _placeholderTab(Routes.compare, (l) => l.tabCompare),
         _placeholderTab(Routes.advice, (l) => l.tabAdvice),
         StatefulShellBranch(
@@ -92,6 +105,7 @@ GoRouter createRouter(Session session) => GoRouter(
                   session: c.read(),
                   auth: c.read(),
                   profiles: c.read(),
+                  families: c.read(),
                 ),
                 child: const SettingsScreen(),
               ),

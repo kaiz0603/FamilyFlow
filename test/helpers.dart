@@ -1,5 +1,6 @@
 import 'package:familyflow/app/app.dart';
 import 'package:familyflow/data/repositories/auth_repository.dart';
+import 'package:familyflow/data/repositories/family_repository.dart';
 import 'package:familyflow/data/repositories/profile_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
@@ -39,6 +40,7 @@ class TestApp {
   Widget widget({Locale? locale}) => FamilyFlowApp(
     auth: AuthRepository(auth),
     profiles: ProfileRepository(db),
+    families: FamilyRepository(db),
     locale: locale,
   );
 }

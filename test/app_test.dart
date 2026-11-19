@@ -47,7 +47,23 @@ void main() {
     for (final label in ['首页', '对比', '建议', '设置']) {
       expect(find.widgetWithText(NavigationDestination, label), findsOneWidget);
     }
-    expect(find.text('即将推出'), findsOneWidget);
+    expect(find.text('建立你的家庭'), findsOneWidget);
+    expect(find.text('创建家庭'), findsOneWidget);
+  });
+
+  testWidgets('a child without a family can only join, not create', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      TestApp(
+        signedInUid: 'u1',
+        profile: profileDoc(role: 'child'),
+      ).widget(),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Join with a code'), findsOneWidget);
+    expect(find.text('Create family'), findsNothing);
   });
 
   testWidgets('switching language in Settings updates the profile and UI', (
