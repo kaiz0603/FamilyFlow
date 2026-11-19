@@ -17,10 +17,6 @@
   "@tabSettings": {
     "description": "Bottom navigation tab: settings"
   },
-  "comingSoon": "Coming soon",
-  "@comingSoon": {
-    "description": "Placeholder body for screens not built yet"
-  },
   "welcomeTagline": "See your family through each other's eyes.",
   "@welcomeTagline": {
     "description": "Welcome screen subtitle"
@@ -221,5 +217,108 @@
   "tagMoney": "Money",
   "tagRespect": "Respect",
   "weeklyChallenge": "This week's challenge",
-  "adviceEmpty": "No advice matches these filters."
+  "adviceEmpty": "No advice matches these filters.",
+  "compareNoFamily": "Create or join a Family on Home to compare views.",
+  "compareSelfName": "{name} (self)",
+  "@compareSelfName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "compareInviteSelf": "Take your self-check to put your own view on the chart.",
+  "compareInviteChildren": "Ask your Children to rate you. Their views show up here.",
+  "compareNoChildren": "No Children in the Family yet. Invite one from Home.",
+  "compareParentNoSelf": "{parent} has not done a self-check yet. Ask them to take it.",
+  "@compareParentNoSelf": {
+    "placeholders": {
+      "parent": {
+        "type": "String"
+      }
+    }
+  },
+  "compareChildNone": "Rate a Parent to see how your views compare.",
+  "compareRateParent": "Rate {parent}",
+  "@compareRateParent": {
+    "placeholders": {
+      "parent": {
+        "type": "String"
+      }
+    }
+  },
+  "gapSame": "{child} and {parent} see {dimension, select, warmth{warmth} other{demandingness}} about the same way.",
+  "@gapSame": {
+    "placeholders": {
+      "child": {
+        "type": "String"
+      },
+      "parent": {
+        "type": "String"
+      },
+      "dimension": {
+        "type": "String"
+      }
+    }
+  },
+  "gapDiff": "{child} experiences {size, select, large{much} other{a bit}} {direction, select, more{more} other{less}} {dimension, select, warmth{warmth} other{demandingness}} than {parent} sees in their self-check.",
+  "@gapDiff": {
+    "placeholders": {
+      "child": {
+        "type": "String"
+      },
+      "parent": {
+        "type": "String"
+      },
+      "dimension": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      },
+      "direction": {
+        "type": "String"
+      }
+    }
+  },
+  "chartQuadrantLabel": "Quadrant chart. Warmth runs across, demandingness up, the midpoint is 50.",
+  "chartPoint": "{name}: warmth {warmth}, demandingness {demandingness}, {style}.",
+  "@chartPoint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "warmth": {
+        "type": "int"
+      },
+      "demandingness": {
+        "type": "int"
+      },
+      "style": {
+        "type": "String"
+      }
+    }
+  },
+  "chartEmpty": "No results yet.",
+  "historyTitle": "History",
+  "historySummary": "{dimension} over time. {series}",
+  "@historySummary": {
+    "placeholders": {
+      "dimension": {
+        "type": "String"
+      },
+      "series": {
+        "type": "String"
+      }
+    }
+  },
+  "historyNotComparable": "A dashed line marks a new question version. Scores on either side of it are not directly comparable.",
+  "historyVersion": "v{major}",
+  "@historyVersion": {
+    "placeholders": {
+      "major": {
+        "type": "String"
+      }
+    }
+  }
 }

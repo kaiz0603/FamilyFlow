@@ -5,12 +5,15 @@
 //   node firebase/tests/scripts/actor.mjs join <email> <code>    send a Join Request
 //   node firebase/tests/scripts/actor.mjs complete <email>       finish joining after approval
 //   node firebase/tests/scripts/actor.mjs show <email>           print profile and membership
+//   node firebase/tests/scripts/actor.mjs assess <email> <parentUid> <1..5>
+//                                     save a Child View answering every item with that value
+import { readFileSync } from 'node:fs';
 import { initializeApp } from 'firebase/app';
 import {
   connectAuthEmulator, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {
-  connectFirestoreEmulator, doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp,
+  collection, connectFirestoreEmulator, doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp,
   writeBatch,
 } from 'firebase/firestore';
 
@@ -21,7 +24,7 @@ connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
 const db = getFirestore(app);
 connectFirestoreEmulator(db, '127.0.0.1', 8080);
 
-const [cmd, email, arg] = process.argv.slice(2);
+const [cmd, email, arg, arg2] = process.argv.slice(2);
 const signIn = async () => (await signInWithEmailAndPassword(auth, email, PASSWORD)).user.uid;
 const profileOf = async (uid) => (await getDoc(doc(db, `users/${uid}`))).data();
 
@@ -76,7 +79,43 @@ switch (cmd) {
     console.log({ familyId: me.familyId, pendingFamilyId: me.pendingFamilyId ?? null, member });
     break;
   }
+  case 'assess': {
+    // Mirrors lib/domain/assessment/scoring.dart score() and AssessmentRepository.save.
+    const answer = Number(arg2);
+    if (!Number.isInteger(answer) || answer < 1 || answer > 5) throw new Error('answer must be 1..5');
+    const content = JSON.parse(readFileSync(
+      new URL('../../../assets/content/assessment.en.json', import.meta.url), 'utf8'));
+    const items = content.forms.child_view;
+    const scoreOf = (dim) => {
+      const vals = items.filter((i) => i.dimension === dim).map((i) => (i.reverse ? 6 - answer : answer));
+      return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length - 1) / 4 * 100);
+    };
+    const warmth = scoreOf('warmth');
+    const demandingness = scoreOf('demandingness');
+    const style = warmth >= 50
+      ? (demandingness >= 50 ? 'authoritative' : 'permissive')
+      : (demandingness >= 50 ? 'authoritarian' : 'neglectful');
+    const uid = await signIn();
+    const fid = (await profileOf(uid)).familyId;
+    const ref = doc(collection(db, `families/${fid}/assessments`));
+    const b = writeBatch(db);
+    b.set(doc(db, `users/${uid}/answers/${ref.id}`), {
+      familyId: fid, answers: Object.fromEntries(items.map((i) => [i.id, answer])),
+      contentVersion: content.contentVersion, createdAt: serverTimestamp(),
+    });
+    b.set(ref, {
+      raterId: uid, subjectParentId: arg, perspective: 'child_view', warmth, demandingness,
+      style, contentVersion: content.contentVersion, createdAt: serverTimestamp(),
+    });
+    b.set(doc(collection(db, `families/${fid}/activity`)), {
+      type: 'assessment_done', actorId: uid, refId: ref.id, createdAt: serverTimestamp(),
+      expireAt: Timestamp.fromMillis(Date.now() + 90 * 86400000),
+    });
+    await b.commit();
+    console.log('assessed', { warmth, demandingness, style });
+    break;
+  }
   default:
-    console.log('commands: child | join | complete | show');
+    console.log('commands: child | join | complete | show | assess');
 }
 process.exit(0);

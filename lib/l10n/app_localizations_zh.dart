@@ -25,9 +25,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tabSettings => '设置';
 
   @override
-  String get comingSoon => '即将推出';
-
-  @override
   String get welcomeTagline => '换个视角，看见彼此眼中的家。';
 
   @override
@@ -433,4 +430,90 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get adviceEmpty => '没有符合条件的建议。';
+
+  @override
+  String get compareNoFamily => '先在首页创建或加入家庭，再来对比看法。';
+
+  @override
+  String compareSelfName(String name) {
+    return '$name（自评）';
+  }
+
+  @override
+  String get compareInviteSelf => '完成你的自评，把你自己的看法放到图上。';
+
+  @override
+  String get compareInviteChildren => '请孩子为你评分，他们的看法会显示在这里。';
+
+  @override
+  String get compareNoChildren => '家庭里还没有孩子。可以在首页邀请。';
+
+  @override
+  String compareParentNoSelf(String parent) {
+    return '$parent还没有做自评。请提醒他们完成。';
+  }
+
+  @override
+  String get compareChildNone => '为父母评分后，就能看到你们的看法有何不同。';
+
+  @override
+  String compareRateParent(String parent) {
+    return '为$parent评分';
+  }
+
+  @override
+  String gapSame(String child, String parent, String dimension) {
+    String _temp0 = intl.Intl.selectLogic(dimension, {
+      'warmth': '温暖回应',
+      'other': '规则要求',
+    });
+    return '$child和$parent对$_temp0的看法基本一致。';
+  }
+
+  @override
+  String gapDiff(
+    String child,
+    String parent,
+    String dimension,
+    String size,
+    String direction,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(dimension, {
+      'warmth': '温暖回应',
+      'other': '规则要求',
+    });
+    String _temp1 = intl.Intl.selectLogic(size, {'large': '明显', 'other': '略'});
+    String _temp2 = intl.Intl.selectLogic(direction, {
+      'more': '高',
+      'other': '低',
+    });
+    return '$child感受到的$_temp0比$parent自评的$_temp1$_temp2。';
+  }
+
+  @override
+  String get chartQuadrantLabel => '四象限图。横轴是温暖回应，纵轴是规则要求，中点为 50。';
+
+  @override
+  String chartPoint(String name, int warmth, int demandingness, String style) {
+    return '$name：温暖回应 $warmth，规则要求 $demandingness，$style。';
+  }
+
+  @override
+  String get chartEmpty => '还没有结果。';
+
+  @override
+  String get historyTitle => '历史';
+
+  @override
+  String historySummary(String dimension, String series) {
+    return '$dimension随时间的变化。$series';
+  }
+
+  @override
+  String get historyNotComparable => '虚线表示题目版本更新。虚线两侧的分数不能直接比较。';
+
+  @override
+  String historyVersion(String major) {
+    return 'v$major';
+  }
 }

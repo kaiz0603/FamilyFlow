@@ -25,9 +25,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabSettings => 'Settings';
 
   @override
-  String get comingSoon => 'Coming soon';
-
-  @override
   String get welcomeTagline => 'See your family through each other\'s eyes.';
 
   @override
@@ -458,4 +455,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adviceEmpty => 'No advice matches these filters.';
+
+  @override
+  String get compareNoFamily =>
+      'Create or join a Family on Home to compare views.';
+
+  @override
+  String compareSelfName(String name) {
+    return '$name (self)';
+  }
+
+  @override
+  String get compareInviteSelf =>
+      'Take your self-check to put your own view on the chart.';
+
+  @override
+  String get compareInviteChildren =>
+      'Ask your Children to rate you. Their views show up here.';
+
+  @override
+  String get compareNoChildren =>
+      'No Children in the Family yet. Invite one from Home.';
+
+  @override
+  String compareParentNoSelf(String parent) {
+    return '$parent has not done a self-check yet. Ask them to take it.';
+  }
+
+  @override
+  String get compareChildNone => 'Rate a Parent to see how your views compare.';
+
+  @override
+  String compareRateParent(String parent) {
+    return 'Rate $parent';
+  }
+
+  @override
+  String gapSame(String child, String parent, String dimension) {
+    String _temp0 = intl.Intl.selectLogic(dimension, {
+      'warmth': 'warmth',
+      'other': 'demandingness',
+    });
+    return '$child and $parent see $_temp0 about the same way.';
+  }
+
+  @override
+  String gapDiff(
+    String child,
+    String parent,
+    String dimension,
+    String size,
+    String direction,
+  ) {
+    String _temp0 = intl.Intl.selectLogic(size, {
+      'large': 'much',
+      'other': 'a bit',
+    });
+    String _temp1 = intl.Intl.selectLogic(direction, {
+      'more': 'more',
+      'other': 'less',
+    });
+    String _temp2 = intl.Intl.selectLogic(dimension, {
+      'warmth': 'warmth',
+      'other': 'demandingness',
+    });
+    return '$child experiences $_temp0 $_temp1 $_temp2 than $parent sees in their self-check.';
+  }
+
+  @override
+  String get chartQuadrantLabel =>
+      'Quadrant chart. Warmth runs across, demandingness up, the midpoint is 50.';
+
+  @override
+  String chartPoint(String name, int warmth, int demandingness, String style) {
+    return '$name: warmth $warmth, demandingness $demandingness, $style.';
+  }
+
+  @override
+  String get chartEmpty => 'No results yet.';
+
+  @override
+  String get historyTitle => 'History';
+
+  @override
+  String historySummary(String dimension, String series) {
+    return '$dimension over time. $series';
+  }
+
+  @override
+  String get historyNotComparable =>
+      'A dashed line marks a new question version. Scores on either side of it are not directly comparable.';
+
+  @override
+  String historyVersion(String major) {
+    return 'v$major';
+  }
 }

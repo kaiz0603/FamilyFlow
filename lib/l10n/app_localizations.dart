@@ -128,12 +128,6 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get tabSettings;
 
-  /// Placeholder body for screens not built yet
-  ///
-  /// In en, this message translates to:
-  /// **'Coming soon'**
-  String get comingSoon;
-
   /// Welcome screen subtitle
   ///
   /// In en, this message translates to:
@@ -907,6 +901,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No advice matches these filters.'**
   String get adviceEmpty;
+
+  /// No description provided for @compareNoFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Create or join a Family on Home to compare views.'**
+  String get compareNoFamily;
+
+  /// No description provided for @compareSelfName.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (self)'**
+  String compareSelfName(String name);
+
+  /// No description provided for @compareInviteSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'Take your self-check to put your own view on the chart.'**
+  String get compareInviteSelf;
+
+  /// No description provided for @compareInviteChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask your Children to rate you. Their views show up here.'**
+  String get compareInviteChildren;
+
+  /// No description provided for @compareNoChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'No Children in the Family yet. Invite one from Home.'**
+  String get compareNoChildren;
+
+  /// No description provided for @compareParentNoSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'{parent} has not done a self-check yet. Ask them to take it.'**
+  String compareParentNoSelf(String parent);
+
+  /// No description provided for @compareChildNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate a Parent to see how your views compare.'**
+  String get compareChildNone;
+
+  /// No description provided for @compareRateParent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate {parent}'**
+  String compareRateParent(String parent);
+
+  /// No description provided for @gapSame.
+  ///
+  /// In en, this message translates to:
+  /// **'{child} and {parent} see {dimension, select, warmth{warmth} other{demandingness}} about the same way.'**
+  String gapSame(String child, String parent, String dimension);
+
+  /// No description provided for @gapDiff.
+  ///
+  /// In en, this message translates to:
+  /// **'{child} experiences {size, select, large{much} other{a bit}} {direction, select, more{more} other{less}} {dimension, select, warmth{warmth} other{demandingness}} than {parent} sees in their self-check.'**
+  String gapDiff(
+    String child,
+    String parent,
+    String dimension,
+    String size,
+    String direction,
+  );
+
+  /// No description provided for @chartQuadrantLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quadrant chart. Warmth runs across, demandingness up, the midpoint is 50.'**
+  String get chartQuadrantLabel;
+
+  /// No description provided for @chartPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: warmth {warmth}, demandingness {demandingness}, {style}.'**
+  String chartPoint(String name, int warmth, int demandingness, String style);
+
+  /// No description provided for @chartEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No results yet.'**
+  String get chartEmpty;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTitle;
+
+  /// No description provided for @historySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{dimension} over time. {series}'**
+  String historySummary(String dimension, String series);
+
+  /// No description provided for @historyNotComparable.
+  ///
+  /// In en, this message translates to:
+  /// **'A dashed line marks a new question version. Scores on either side of it are not directly comparable.'**
+  String get historyNotComparable;
+
+  /// No description provided for @historyVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'v{major}'**
+  String historyVersion(String major);
 }
 
 class _AppLocalizationsDelegate

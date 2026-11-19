@@ -26,15 +26,18 @@ Map<String, Object?> profileDoc({
 
 /// The app wired to in-memory Firebase fakes.
 class TestApp {
-  TestApp({String? signedInUid, Map<String, Object?>? profile})
-    : auth = MockFirebaseAuth(
-        signedIn: signedInUid != null,
-        mockUser: MockUser(uid: signedInUid ?? 'u1', email: 'a@example.com'),
-      ),
-      db = FakeFirebaseFirestore() {
+  TestApp({
+    String? signedInUid,
+    Map<String, Object?>? profile,
+    FakeFirebaseFirestore? db,
+  }) : auth = MockFirebaseAuth(
+         signedIn: signedInUid != null,
+         mockUser: MockUser(uid: signedInUid ?? 'u1', email: 'a@example.com'),
+       ),
+       db = db ?? FakeFirebaseFirestore() {
     SharedPreferences.setMockInitialValues({});
     if (signedInUid != null && profile != null) {
-      db.collection('users').doc(signedInUid).set(profile);
+      this.db.collection('users').doc(signedInUid).set(profile);
     }
   }
 

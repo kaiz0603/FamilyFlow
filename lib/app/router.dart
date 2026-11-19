@@ -2,8 +2,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart' show ValueKey;
 import 'package:provider/provider.dart';
 
-import '../l10n/app_localizations.dart';
-import '../ui/core/placeholder_screen.dart';
 import '../ui/core/shell_scaffold.dart';
 import '../domain/models/assessment.dart';
 import '../ui/core/splash_screen.dart';
@@ -11,6 +9,8 @@ import '../ui/features/advice/view_models/advice_view_model.dart';
 import '../ui/features/advice/views/advice_screen.dart';
 import '../ui/features/assessment/view_models/assessment_view_model.dart';
 import '../ui/features/assessment/views/assessment_screen.dart';
+import '../ui/features/compare/view_models/compare_view_model.dart';
+import '../ui/features/compare/views/compare_screen.dart';
 import '../ui/features/home/view_models/home_view_model.dart';
 import '../ui/features/home/views/home_screen.dart';
 import '../ui/features/onboarding/view_models/auth_view_model.dart';
@@ -120,7 +120,21 @@ GoRouter createRouter(Session session) => GoRouter(
             ),
           ],
         ),
-        _placeholderTab(Routes.compare, (l) => l.tabCompare),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.compare,
+              builder: (context, _) => ChangeNotifierProvider(
+                create: (c) => CompareViewModel(
+                  session: c.read(),
+                  families: c.read(),
+                  assessmentRepo: c.read(),
+                ),
+                child: const CompareScreen(),
+              ),
+            ),
+          ],
+        ),
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -158,19 +172,6 @@ GoRouter createRouter(Session session) => GoRouter(
           ],
         ),
       ],
-    ),
-  ],
-);
-
-StatefulShellBranch _placeholderTab(
-  String path,
-  String Function(AppLocalizations) title,
-) => StatefulShellBranch(
-  routes: [
-    GoRoute(
-      path: path,
-      builder: (context, state) =>
-          PlaceholderScreen(title: title(AppLocalizations.of(context))),
     ),
   ],
 );
