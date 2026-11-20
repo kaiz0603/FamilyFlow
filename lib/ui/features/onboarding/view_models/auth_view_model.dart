@@ -22,6 +22,8 @@ class AuthViewModel extends ChangeNotifier {
   Future<bool> signUp(String email, String password) =>
       _run(() => _auth.signUp(email, password));
 
+  Future<bool> signInWithGoogle() => _run(_auth.signInWithGoogle);
+
   Future<bool> sendPasswordReset(String email) =>
       _run(() => _auth.sendPasswordReset(email));
 

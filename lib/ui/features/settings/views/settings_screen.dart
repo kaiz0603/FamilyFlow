@@ -42,9 +42,14 @@ class SettingsScreen extends StatelessWidget {
     final vm = context.read<SettingsViewModel>();
     final password = await showDialog<String>(
       context: context,
-      builder: (_) => _DeleteAccountDialog(inFamily: vm.inFamily),
+      builder: (_) => _DeleteAccountDialog(
+        inFamily: vm.inFamily,
+        withPassword: vm.hasPassword,
+      ),
     );
-    if (password != null) await vm.deleteAccount(password);
+    if (password != null) {
+      await vm.deleteAccount(vm.hasPassword ? password : null);
+    }
   }
 
   @override
@@ -199,11 +204,16 @@ class _Reminders extends StatelessWidget {
   }
 }
 
-/// Returns the password to re-authenticate with, or null on cancel.
+/// Returns the password to re-authenticate with ('' for Google-only accounts,
+/// which confirm in the Google picker next), or null on cancel.
 class _DeleteAccountDialog extends StatefulWidget {
-  const _DeleteAccountDialog({required this.inFamily});
+  const _DeleteAccountDialog({
+    required this.inFamily,
+    required this.withPassword,
+  });
 
   final bool inFamily;
+  final bool withPassword;
 
   @override
   State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
@@ -233,11 +243,14 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             Text(l.deleteAccountFamilyNote),
           ],
           const SizedBox(height: 12),
-          TextField(
-            controller: _password,
-            obscureText: true,
-            decoration: InputDecoration(labelText: l.password),
-          ),
+          if (widget.withPassword)
+            TextField(
+              controller: _password,
+              obscureText: true,
+              decoration: InputDecoration(labelText: l.password),
+            )
+          else
+            Text(l.deleteAccountGoogleNote),
         ],
       ),
       actions: [
@@ -251,7 +264,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             foregroundColor: scheme.onError,
           ),
           onPressed: () {
-            if (_password.text.isNotEmpty) {
+            if (!widget.withPassword || _password.text.isNotEmpty) {
               Navigator.pop(context, _password.text);
             }
           },

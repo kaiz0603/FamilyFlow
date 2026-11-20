@@ -31,6 +31,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signIn => 'Sign in';
 
   @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
   String get signUp => 'Create account';
 
   @override
@@ -293,6 +296,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get leaveFamilyLastParentBody =>
       'If you are the last parent, the family is removed for everyone.';
+
+  @override
+  String get deleteAccountGoogleNote =>
+      'Next, confirm with your Google account.';
 
   @override
   String get deleteAccountFamilyNote =>

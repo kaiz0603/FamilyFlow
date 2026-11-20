@@ -140,6 +140,12 @@ abstract class AppLocalizations {
   /// **'Sign in'**
   String get signIn;
 
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
   /// No description provided for @signUp.
   ///
   /// In en, this message translates to:
@@ -613,6 +619,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'If you are the last parent, the family is removed for everyone.'**
   String get leaveFamilyLastParentBody;
+
+  /// No description provided for @deleteAccountGoogleNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Next, confirm with your Google account.'**
+  String get deleteAccountGoogleNote;
 
   /// No description provided for @deleteAccountFamilyNote.
   ///

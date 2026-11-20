@@ -7,7 +7,7 @@ enum Env {
     const String.fromEnvironment('ENV', defaultValue: 'dev'),
   );
 
-  /// Dev always talks to the local Firebase emulators until real projects exist (M1).
+  /// Dev talks to the local emulators by default; `--dart-define=USE_EMULATOR=false` uses the real dev project.
   static const bool useEmulator = bool.fromEnvironment(
     'USE_EMULATOR',
     defaultValue: true,

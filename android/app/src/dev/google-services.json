@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "522938354376",
+    "project_id": "familyflow-dev-kz",
+    "storage_bucket": "familyflow-dev-kz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522938354376:android:e7e247f02e945adb06f3fd",
+        "android_client_info": {
+          "package_name": "io.github.kaiz0603.familyflow.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522938354376-kuuput0ao63jr59rrjba4osrags7q42n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.kaiz0603.familyflow.dev",
+            "certificate_hash": "d66c74472127a14c874b9a2332e948708c9a6520"
+          }
+        },
+        {
+          "client_id": "522938354376-p8hbn9c202dodqfe5a1btumc4tq9i3aj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9fxp5dIEYImzxcDez5q3kcIM2jn1clwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522938354376-p8hbn9c202dodqfe5a1btumc4tq9i3aj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

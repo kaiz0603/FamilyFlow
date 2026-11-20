@@ -1,8 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../app/router.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../core/form_widgets.dart';
+import '../view_models/auth_view_model.dart';
+import 'google_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -38,6 +42,7 @@ class WelcomeScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const Spacer(),
+              ErrorLine(context.watch<AuthViewModel>().error),
               FilledButton(
                 onPressed: () => context.push(Routes.signUp),
                 style: FilledButton.styleFrom(minimumSize: tall),
@@ -49,6 +54,8 @@ class WelcomeScreen extends StatelessWidget {
                 style: OutlinedButton.styleFrom(minimumSize: tall),
                 child: Text(l.signIn),
               ),
+              const SizedBox(height: 12),
+              const GoogleButton(),
             ],
           ),
         ),

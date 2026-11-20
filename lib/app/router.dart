@@ -71,7 +71,13 @@ GoRouter createRouter(Session session) => GoRouter(
   redirect: (context, state) => gate(session.status, state.matchedLocation),
   routes: [
     GoRoute(path: Routes.splash, builder: (_, _) => const SplashScreen()),
-    GoRoute(path: Routes.welcome, builder: (_, _) => const WelcomeScreen()),
+    GoRoute(
+      path: Routes.welcome,
+      builder: (context, _) => ChangeNotifierProvider(
+        create: (c) => AuthViewModel(auth: c.read()),
+        child: const WelcomeScreen(),
+      ),
+    ),
     GoRoute(
       path: Routes.signIn,
       builder: (context, _) => ChangeNotifierProvider(

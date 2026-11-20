@@ -22,6 +22,7 @@
     "description": "Welcome screen subtitle"
   },
   "signIn": "Sign in",
+  "continueWithGoogle": "Continue with Google",
   "signUp": "Create account",
   "signOut": "Sign out",
   "email": "Email",
@@ -129,6 +130,7 @@
   "leaveFamily": "Leave family",
   "leaveFamilyBody": "You'll stop seeing this family's results and challenges. Your own results here are removed.",
   "leaveFamilyLastParentBody": "If you are the last parent, the family is removed for everyone.",
+  "deleteAccountGoogleNote": "Next, confirm with your Google account.",
   "deleteAccountFamilyNote": "You will also leave your family. If you are its last parent, the family is removed for everyone.",
   "errInvalidInviteCode": "That code doesn't work. It may have expired — ask for a new one.",
   "assessmentTitleSelf": "Parenting self-check",

@@ -32,6 +32,9 @@ class SettingsViewModel extends ChangeNotifier {
   UserProfile? get profile => _session.profile;
   String? get email => _auth.currentEmail;
 
+  /// False for Google-only accounts: they confirm deletion with Google.
+  bool get hasPassword => _auth.hasPassword;
+
   bool _busy = false;
   bool get busy => _busy;
 
@@ -102,14 +105,29 @@ class SettingsViewModel extends ChangeNotifier {
     return _run(() => _families.leaveFamily(p!.familyId!, p));
   }
 
-  /// Re-authenticate first, so a wrong password deletes nothing. Then leave
+  /// Re-authenticate first (password, or Google when [password] is null), so a
+  /// wrong password or a closed Google picker deletes nothing. Then leave
   /// the Family (or withdraw a request) before the profile goes.
   /// M3 adds private answers (docs/PRIVACY.md).
-  Future<bool> deleteAccount(String password) async {
+  Future<bool> deleteAccount(String? password) async {
     final p = profile;
     if (p == null) return false;
-    return _run(() async {
-      if (await _auth.reauthenticate(password) case final Err<void> e) return e;
+    var cancelled = false;
+    final done = await _run(() async {
+      if (password != null) {
+        if (await _auth.reauthenticate(password) case final Err<void> e) {
+          return e;
+        }
+      } else {
+        switch (await _auth.reauthenticateWithGoogle()) {
+          case Err(:final error):
+            return Err(error);
+          case Ok(value: false):
+            cancelled = true;
+            return const Ok(null);
+          case Ok():
+        }
+      }
       if (p.pendingFamilyId case final fid?) {
         if (await _families.cancelRequest(fid, p.uid) case final Err<void> e) {
           return e;
@@ -124,6 +142,7 @@ class SettingsViewModel extends ChangeNotifier {
       await _reminders.clear(p.uid);
       return _auth.deleteCurrentUser();
     });
+    return done && !cancelled;
   }
 
   @override

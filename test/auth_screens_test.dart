@@ -59,7 +59,19 @@ class _Gate {
 // MockUser's own fields are mutable, so any subclass trips this lint.
 // ignore: must_be_immutable
 class _User extends MockUser {
-  _User() : super(uid: 'u1', email: 'a@example.com');
+  _User()
+    : super(
+        uid: 'u1',
+        email: 'a@example.com',
+        providerData: [
+          UserInfo.fromJson({
+            'uid': 'u1',
+            'providerId': 'password',
+            'isAnonymous': false,
+            'isEmailVerified': false,
+          }),
+        ],
+      );
 
   final gate = _Gate();
 

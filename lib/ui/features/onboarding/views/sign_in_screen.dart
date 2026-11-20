@@ -7,6 +7,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../core/form_widgets.dart';
 import '../../../core/validators.dart';
 import '../view_models/auth_view_model.dart';
+import 'google_button.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -89,6 +90,8 @@ class _SignInScreenState extends State<SignInScreen> {
         const SizedBox(height: 8),
         ErrorLine(vm.error),
         BusyButton(label: l.signIn, busy: vm.busy, onPressed: _submit),
+        const SizedBox(height: 12),
+        const GoogleButton(),
         const SizedBox(height: 12),
         TextButton(
           onPressed: () => context.pushReplacement(Routes.signUp),

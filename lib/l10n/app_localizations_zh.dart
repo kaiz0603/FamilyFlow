@@ -31,6 +31,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signIn => '登录';
 
   @override
+  String get continueWithGoogle => '使用 Google 继续';
+
+  @override
   String get signUp => '注册账号';
 
   @override
@@ -275,6 +278,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get leaveFamilyLastParentBody => '如果你是最后一位家长，这个家庭会对所有人删除。';
+
+  @override
+  String get deleteAccountGoogleNote => '接下来请用你的 Google 账号确认。';
 
   @override
   String get deleteAccountFamilyNote => '你也会退出家庭。如果你是最后一位家长，这个家庭会对所有人删除。';

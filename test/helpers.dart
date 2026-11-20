@@ -6,6 +6,7 @@ import 'package:familyflow/data/repositories/content_repository.dart';
 import 'package:familyflow/data/repositories/family_repository.dart';
 import 'package:familyflow/data/repositories/profile_repository.dart';
 import 'package:familyflow/data/repositories/reminder_repository.dart';
+import 'package:familyflow/data/services/google_auth_service.dart';
 import 'package:familyflow/data/services/notification_service.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
@@ -56,6 +57,24 @@ class FakeNotificationService implements NotificationService {
   }
 }
 
+/// The Google picker: returns [token] (null = the user closed it) or throws [error].
+class FakeGoogleAuthService implements GoogleAuthService {
+  String? token = 'google-id-token';
+  Object? error;
+  int picks = 0;
+  int signOuts = 0;
+
+  @override
+  Future<String?> idToken() async {
+    picks++;
+    if (error case final e?) throw e;
+    return token;
+  }
+
+  @override
+  Future<void> signOut() async => signOuts++;
+}
+
 /// The app wired to in-memory Firebase fakes.
 class TestApp {
   TestApp({
@@ -82,9 +101,10 @@ class TestApp {
   final MockFirebaseAuth auth;
   final FakeFirebaseFirestore db;
   final notifications = FakeNotificationService();
+  final google = FakeGoogleAuthService();
 
   Widget widget({Locale? locale}) => FamilyFlowApp(
-    auth: AuthRepository(auth),
+    auth: AuthRepository(auth, google),
     profiles: ProfileRepository(db),
     families: FamilyRepository(db),
     assessments: AssessmentRepository(db),
