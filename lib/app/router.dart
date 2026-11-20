@@ -198,6 +198,8 @@ GoRouter createRouter(Session session) => GoRouter(
                   auth: c.read(),
                   profiles: c.read(),
                   families: c.read(),
+                  reminders: c.read(),
+                  reminderSync: c.read(),
                 ),
                 child: const SettingsScreen(),
               ),

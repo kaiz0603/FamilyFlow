@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -84,6 +85,8 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           const Divider(),
+          const _Reminders(),
+          const Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ErrorLine(vm.error),
@@ -106,6 +109,92 @@ class SettingsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Two opt-in Reminders (PRD F8.3): weekly check-in, daily Challenge check-in.
+class _Reminders extends StatelessWidget {
+  const _Reminders();
+
+  Future<void> _pickTime(
+    BuildContext context,
+    int minutes,
+    Future<void> Function(int) save,
+  ) async {
+    final t = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60),
+    );
+    if (t != null) await save(t.hour * 60 + t.minute);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final vm = context.watch<SettingsViewModel>();
+    final r = vm.reminders;
+    String time(int m) =>
+        TimeOfDay(hour: m ~/ 60, minute: m % 60).format(context);
+    // 2024-01-01 is a Monday, so day N of January is weekday N.
+    String day(int weekday) =>
+        DateFormat.EEEE(l.localeName).format(DateTime(2024, 1, weekday));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: Text(
+            l.settingsReminders,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+        SwitchListTile(
+          title: Text(l.remindersWeekly),
+          subtitle: Text(l.remindersWeeklySubtitle),
+          value: r.weeklyOn,
+          onChanged: vm.setWeekly,
+        ),
+        if (r.weeklyOn) ...[
+          ListTile(
+            title: Text(l.remindersDay),
+            trailing: DropdownButton<int>(
+              value: r.weekday,
+              onChanged: (v) => vm.setWeekday(v!),
+              items: [
+                for (var d = 1; d <= 7; d++)
+                  DropdownMenuItem(value: d, child: Text(day(d))),
+              ],
+            ),
+          ),
+          ListTile(
+            title: Text(l.remindersTime),
+            trailing: Text(time(r.weeklyMinutes)),
+            onTap: () =>
+                _pickTime(context, r.weeklyMinutes, vm.setWeeklyMinutes),
+          ),
+        ],
+        SwitchListTile(
+          title: Text(l.remindersDaily),
+          subtitle: Text(l.remindersDailySubtitle),
+          value: r.dailyOn,
+          onChanged: vm.setDaily,
+        ),
+        if (r.dailyOn)
+          ListTile(
+            title: Text(l.remindersTime),
+            trailing: Text(time(r.dailyMinutes)),
+            onTap: () => _pickTime(context, r.dailyMinutes, vm.setDailyMinutes),
+          ),
+        if (vm.notificationsBlocked)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              l.remindersPermissionDenied,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+      ],
     );
   }
 }

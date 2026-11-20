@@ -600,4 +600,34 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get activityChallengeFinished => '一周的亲子挑战结束了';
+
+  @override
+  String get settingsReminders => '提醒';
+
+  @override
+  String get remindersWeekly => '每周回顾';
+
+  @override
+  String get remindersWeeklySubtitle => '每周一次,看看家人最近怎么样。';
+
+  @override
+  String get remindersDaily => '每日挑战打卡';
+
+  @override
+  String get remindersDailySubtitle => '参与亲子挑战的每一天提醒你,打卡后当天不再提醒。';
+
+  @override
+  String get remindersDay => '星期';
+
+  @override
+  String get remindersTime => '时间';
+
+  @override
+  String get remindersPermissionDenied => '本应用的通知被关闭了。请在系统设置里允许通知,才能收到提醒。';
+
+  @override
+  String get reminderWeeklyBody => '花一分钟,和家人聊聊近况吧。';
+
+  @override
+  String get reminderDailyBody => '别忘了今天的挑战打卡。';
 }

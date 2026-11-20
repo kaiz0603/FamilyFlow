@@ -1153,6 +1153,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A Challenge week finished'**
   String get activityChallengeFinished;
+
+  /// No description provided for @settingsReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get settingsReminders;
+
+  /// No description provided for @remindersWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly check-in'**
+  String get remindersWeekly;
+
+  /// No description provided for @remindersWeeklySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a week: how is the family doing?'**
+  String get remindersWeeklySubtitle;
+
+  /// No description provided for @remindersDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Challenge check-in'**
+  String get remindersDaily;
+
+  /// No description provided for @remindersDailySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day of a Challenge you take part in, until you check in.'**
+  String get remindersDailySubtitle;
+
+  /// No description provided for @remindersDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get remindersDay;
+
+  /// No description provided for @remindersTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get remindersTime;
+
+  /// No description provided for @remindersPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are blocked for this app. Allow them in the system settings to get Reminders.'**
+  String get remindersPermissionDenied;
+
+  /// No description provided for @reminderWeeklyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a minute to check in with your family.'**
+  String get reminderWeeklyBody;
+
+  /// No description provided for @reminderDailyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget today\'s Challenge check-in.'**
+  String get reminderDailyBody;
 }
 
 class _AppLocalizationsDelegate

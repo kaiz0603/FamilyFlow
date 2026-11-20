@@ -12,8 +12,10 @@ import '../data/repositories/challenge_repository.dart';
 import '../data/repositories/content_repository.dart';
 import '../data/repositories/family_repository.dart';
 import '../data/repositories/profile_repository.dart';
+import '../data/repositories/reminder_repository.dart';
 import '../l10n/app_localizations.dart';
 import '../ui/core/theme.dart';
+import 'reminder_sync.dart';
 import 'router.dart';
 import 'session.dart';
 
@@ -26,6 +28,7 @@ class FamilyFlowApp extends StatefulWidget {
     required this.assessments,
     required this.challenges,
     required this.content,
+    required this.reminders,
     this.locale,
   });
 
@@ -35,6 +38,7 @@ class FamilyFlowApp extends StatefulWidget {
   final AssessmentRepository assessments;
   final ChallengeRepository challenges;
   final ContentRepository content;
+  final ReminderRepository reminders;
 
   /// Forces a locale (tests). Otherwise: the profile's language, else the device's.
   final Locale? locale;
@@ -48,11 +52,17 @@ class _FamilyFlowAppState extends State<FamilyFlowApp> {
     auth: widget.auth,
     profiles: widget.profiles,
   );
+  late final ReminderSync _reminderSync = ReminderSync(
+    session: _session,
+    challenges: widget.challenges,
+    reminders: widget.reminders,
+  );
   late final GoRouter _router = createRouter(_session);
 
   @override
   void dispose() {
     _router.dispose();
+    _reminderSync.dispose();
     _session.dispose();
     super.dispose();
   }
@@ -67,6 +77,8 @@ class _FamilyFlowAppState extends State<FamilyFlowApp> {
         Provider.value(value: widget.assessments),
         Provider.value(value: widget.challenges),
         Provider.value(value: widget.content),
+        Provider.value(value: widget.reminders),
+        Provider.value(value: _reminderSync),
         ChangeNotifierProvider.value(value: _session),
       ],
       child: ListenableBuilder(

@@ -12,4 +12,7 @@ enum Env {
     'USE_EMULATOR',
     defaultValue: true,
   );
+
+  /// Overrides the emulator host, e.g. `localhost` on a USB phone with `adb reverse`.
+  static const String emulatorHost = String.fromEnvironment('EMULATOR_HOST');
 }

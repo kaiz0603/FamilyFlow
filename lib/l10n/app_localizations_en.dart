@@ -636,4 +636,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get activityChallengeFinished => 'A Challenge week finished';
+
+  @override
+  String get settingsReminders => 'Reminders';
+
+  @override
+  String get remindersWeekly => 'Weekly check-in';
+
+  @override
+  String get remindersWeeklySubtitle => 'Once a week: how is the family doing?';
+
+  @override
+  String get remindersDaily => 'Daily Challenge check-in';
+
+  @override
+  String get remindersDailySubtitle =>
+      'Every day of a Challenge you take part in, until you check in.';
+
+  @override
+  String get remindersDay => 'Day';
+
+  @override
+  String get remindersTime => 'Time';
+
+  @override
+  String get remindersPermissionDenied =>
+      'Notifications are blocked for this app. Allow them in the system settings to get Reminders.';
+
+  @override
+  String get reminderWeeklyBody =>
+      'Take a minute to check in with your family.';
+
+  @override
+  String get reminderDailyBody => 'Don\'t forget today\'s Challenge check-in.';
 }

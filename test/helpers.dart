@@ -5,6 +5,8 @@ import 'package:familyflow/data/repositories/challenge_repository.dart';
 import 'package:familyflow/data/repositories/content_repository.dart';
 import 'package:familyflow/data/repositories/family_repository.dart';
 import 'package:familyflow/data/repositories/profile_repository.dart';
+import 'package:familyflow/data/repositories/reminder_repository.dart';
+import 'package:familyflow/data/services/notification_service.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:material_ui/material_ui.dart';
@@ -24,6 +26,35 @@ Map<String, Object?> profileDoc({
   'familyId': null,
   'createdAt': DateTime(2026),
 };
+
+/// Records what would be scheduled; no plugin involved.
+class FakeNotificationService implements NotificationService {
+  bool permissionGranted = true;
+  int permissionRequests = 0;
+  final scheduled = <({int id, DateTime at, String body, bool weekly})>[];
+  int cancelAllCalls = 0;
+
+  @override
+  Future<bool> requestPermission() async {
+    permissionRequests++;
+    return permissionGranted;
+  }
+
+  @override
+  Future<void> schedule({
+    required int id,
+    required DateTime at,
+    required String title,
+    required String body,
+    required bool weekly,
+  }) async => scheduled.add((id: id, at: at, body: body, weekly: weekly));
+
+  @override
+  Future<void> cancelAll() async {
+    cancelAllCalls++;
+    scheduled.clear();
+  }
+}
 
 /// The app wired to in-memory Firebase fakes.
 class TestApp {
@@ -50,6 +81,7 @@ class TestApp {
 
   final MockFirebaseAuth auth;
   final FakeFirebaseFirestore db;
+  final notifications = FakeNotificationService();
 
   Widget widget({Locale? locale}) => FamilyFlowApp(
     auth: AuthRepository(auth),
@@ -58,6 +90,7 @@ class TestApp {
     assessments: AssessmentRepository(db),
     challenges: ChallengeRepository(db),
     content: ContentRepository(),
+    reminders: ReminderRepository(notifications),
     locale: locale,
   );
 }

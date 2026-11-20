@@ -174,5 +174,15 @@
   "activityMemberLeft": "{name}离开了家庭",
   "activityAssessmentDone": "{name}完成了一次测评",
   "activityChallengeStarted": "{name}发起了亲子挑战",
-  "activityChallengeFinished": "一周的亲子挑战结束了"
+  "activityChallengeFinished": "一周的亲子挑战结束了",
+  "settingsReminders": "提醒",
+  "remindersWeekly": "每周回顾",
+  "remindersWeeklySubtitle": "每周一次,看看家人最近怎么样。",
+  "remindersDaily": "每日挑战打卡",
+  "remindersDailySubtitle": "参与亲子挑战的每一天提醒你,打卡后当天不再提醒。",
+  "remindersDay": "星期",
+  "remindersTime": "时间",
+  "remindersPermissionDenied": "本应用的通知被关闭了。请在系统设置里允许通知,才能收到提醒。",
+  "reminderWeeklyBody": "花一分钟,和家人聊聊近况吧。",
+  "reminderDailyBody": "别忘了今天的挑战打卡。"
 }
