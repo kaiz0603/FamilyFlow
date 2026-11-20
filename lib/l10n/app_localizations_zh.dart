@@ -636,4 +636,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get reminderDailyBody => '别忘了今天的挑战打卡。';
+
+  @override
+  String get privacyPolicy => '隐私政策';
 }

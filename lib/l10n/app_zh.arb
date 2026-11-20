@@ -186,5 +186,6 @@
   "remindersTime": "时间",
   "remindersPermissionDenied": "本应用的通知被关闭了。请在系统设置里允许通知,才能收到提醒。",
   "reminderWeeklyBody": "花一分钟,和家人聊聊近况吧。",
-  "reminderDailyBody": "别忘了今天的挑战打卡。"
+  "reminderDailyBody": "别忘了今天的挑战打卡。",
+  "privacyPolicy": "隐私政策"
 }

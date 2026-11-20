@@ -10,6 +10,7 @@ import 'package:familyflow/data/services/google_auth_service.dart';
 import 'package:familyflow/data/services/notification_service.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -113,4 +114,13 @@ class TestApp {
     reminders: ReminderRepository(notifications),
     locale: locale,
   );
+}
+
+/// A phone-sized screen at 200% text (M7 accessibility pass). Overflows fail the test.
+void phoneAt200(WidgetTester tester) {
+  tester.view.physicalSize = const Size(1080, 2400);
+  tester.view.devicePixelRatio = 2.625;
+  tester.platformDispatcher.textScaleFactorTestValue = 2.0;
+  addTearDown(tester.view.reset);
+  addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 }

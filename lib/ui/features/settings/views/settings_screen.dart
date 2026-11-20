@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../domain/models/user_profile.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../core/form_widgets.dart';
+import '../../../core/privacy_policy.dart';
 import '../view_models/settings_view_model.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -77,7 +78,8 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
           ListTile(
             title: Text(l.settingsLanguage),
-            trailing: SegmentedButton<String>(
+            // Below the title, not trailing: at 200% text it needs the full width.
+            subtitle: SegmentedButton<String>(
               segments: [
                 ButtonSegment(value: 'zh', label: Text(l.languageZh)),
                 ButtonSegment(value: 'en', label: Text(l.languageEn)),
@@ -102,6 +104,11 @@ class SettingsScreen extends StatelessWidget {
               title: Text(l.leaveFamily),
               onTap: vm.busy ? null : () => _confirmLeave(context),
             ),
+          ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l.privacyPolicy),
+            onTap: () => openPrivacyPolicy(context),
+          ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: Text(l.signOut),

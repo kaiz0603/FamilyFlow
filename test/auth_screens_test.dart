@@ -266,6 +266,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(NavigationDestination, 'Settings'));
       await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text(en.deleteAccount), 200);
       await tester.tap(find.text(en.deleteAccount));
       await tester.pumpAndSettle();
     }

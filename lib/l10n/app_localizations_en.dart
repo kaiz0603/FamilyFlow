@@ -676,4 +676,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reminderDailyBody => 'Don\'t forget today\'s Challenge check-in.';
+
+  @override
+  String get privacyPolicy => 'Privacy policy';
 }

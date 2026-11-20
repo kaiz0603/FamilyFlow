@@ -207,6 +207,7 @@ void main() {
     testWidgets('both: a parent with 2 children sees both child views', (
       tester,
     ) async {
+      phoneAt200(tester);
       await addAssessment(db, rater: 'mom', w: 70, d: 60, at: DateTime(2026));
       await addAssessment(
         db,

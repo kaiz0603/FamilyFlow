@@ -401,5 +401,6 @@
   "remindersTime": "Time",
   "remindersPermissionDenied": "Notifications are blocked for this app. Allow them in the system settings to get Reminders.",
   "reminderWeeklyBody": "Take a minute to check in with your family.",
-  "reminderDailyBody": "Don't forget today's Challenge check-in."
+  "reminderDailyBody": "Don't forget today's Challenge check-in.",
+  "privacyPolicy": "Privacy policy"
 }

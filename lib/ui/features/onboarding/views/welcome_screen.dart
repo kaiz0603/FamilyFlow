@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../app/router.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../core/form_widgets.dart';
+import '../../../core/privacy_policy.dart';
 import '../view_models/auth_view_model.dart';
 import 'google_button.dart';
 
@@ -56,6 +57,11 @@ class WelcomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               const GoogleButton(),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => openPrivacyPolicy(context),
+                child: Text(l.privacyPolicy),
+              ),
             ],
           ),
         ),

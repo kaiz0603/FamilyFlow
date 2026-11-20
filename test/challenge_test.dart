@@ -256,6 +256,7 @@ void main() {
     testWidgets('a finished week shows totals and the next step', (
       tester,
     ) async {
+      phoneAt200(tester);
       await seedChallenge(
         db,
         start: '2026-01-01',
