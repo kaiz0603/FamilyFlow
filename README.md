@@ -10,9 +10,12 @@ FamilyFlow helps parents and teenagers see how each of them experiences the fami
 - **Act on it.** An advice library for every parenting style, plus weekly family challenges with daily check-ins and reminders.
 - **Bilingual.** Simplified Chinese and English.
 
-> Status: being rebuilt from a hackathon prototype into a launch-ready app.
-
-_Screenshots: coming at M7._
+<p>
+  <img src=".github/screenshots/welcome-en.png" width="200" alt="Welcome screen">
+  <img src=".github/screenshots/home-en.png" width="200" alt="Home with this week's Challenge">
+  <img src=".github/screenshots/compare-en.png" width="200" alt="Compare: Mom's self-check and two children's views">
+  <img src=".github/screenshots/advice-en.png" width="200" alt="Advice for a screen-time situation">
+</p>
 
 ### Tech
 Flutter (Android + iOS) · Firebase Auth, Cloud Firestore, Crashlytics · go_router · provider (MVVM, official Flutter architecture) · fl_chart · Firestore security rules with emulator tests · GitHub Actions CI.
@@ -40,7 +43,12 @@ FamilyFlow 帮助父母和青少年子女看清彼此眼中的家庭教养方式
 - **落到行动**：按四种教养方式分类的建议库，以及每周亲子挑战、每日打卡和提醒。
 - **双语**：简体中文与英文。
 
-> 状态：正在把黑客松原型重建为可上线的产品。
+<p>
+  <img src=".github/screenshots/welcome-zh.png" width="200" alt="欢迎页">
+  <img src=".github/screenshots/home-zh.png" width="200" alt="首页：本周亲子挑战">
+  <img src=".github/screenshots/compare-zh.png" width="200" alt="对比：妈妈自评与两个孩子的视角">
+  <img src=".github/screenshots/advice-zh.png" width="200" alt="建议：屏幕时间情境">
+</p>
 
 技术栈：Flutter（Android + iOS）、Firebase Auth、Cloud Firestore、Crashlytics、go_router、provider（MVVM，Flutter 官方架构）、fl_chart、带模拟器测试的 Firestore 安全规则、GitHub Actions CI。
 
