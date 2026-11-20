@@ -28,9 +28,11 @@ enum AppError {
   requiresRecentLogin,
   permissionDenied,
   invalidInviteCode,
+  challengeActive,
   unknown;
 
   static AppError from(Object e) => switch (e) {
+    AppException(:final error) => error,
     FirebaseAuthException(:final code) => switch (code) {
       'network-request-failed' => network,
       'invalid-credential' ||
@@ -51,6 +53,12 @@ enum AppError {
     },
     _ => unknown,
   };
+}
+
+/// Thrown inside a repository operation to fail it with a known [AppError].
+class AppException implements Exception {
+  const AppException(this.error);
+  final AppError error;
 }
 
 /// Runs [op] and turns any thrown error into an [Err].

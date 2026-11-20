@@ -32,6 +32,11 @@ void main() {
             birthYear: DateTime.now().year - 14,
           )..['familyId'] = 'f1',
         );
+    await db.doc('families/f1').set({
+      'name': 'F',
+      'createdBy': 'mom',
+      'memberIds': ['mom', 'kid'],
+    });
     await db.doc('families/f1/members/kid').set({
       'role': 'child',
       'displayName': 'Kid',

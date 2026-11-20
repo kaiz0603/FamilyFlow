@@ -15,7 +15,9 @@ class BusyButton extends StatelessWidget {
 
   final String label;
   final bool busy;
-  final VoidCallback onPressed;
+
+  /// Null disables the button.
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) => FilledButton(

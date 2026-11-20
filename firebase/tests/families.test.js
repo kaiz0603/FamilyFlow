@@ -1,8 +1,8 @@
 import { after, before, beforeEach, test } from 'node:test';
 import { assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
 import {
-  collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp,
-  setDoc, Timestamp, updateDoc, where, writeBatch,
+  arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, query,
+  serverTimestamp, setDoc, Timestamp, updateDoc, where, writeBatch,
 } from 'firebase/firestore';
 import { testEnv, thisYear } from './helpers.js';
 
@@ -36,7 +36,7 @@ async function seedFamily() {
     'users/kid': user('child', { familyId: 'f1', displayName: 'Kid' }),
     'users/dad': user('parent', { displayName: 'Dad' }),
     'users/teen': user('child', { displayName: 'Teen' }),
-    'families/f1': { name: 'Lins', createdBy: 'mom', createdAt: new Date() },
+    'families/f1': { name: 'Lins', createdBy: 'mom', createdAt: new Date(), memberIds: ['mom', 'kid'] },
     'families/f1/members/mom': member('parent', 'Mom'),
     'families/f1/members/kid': member('child', 'Kid'),
     'invites/ABC234': { familyId: 'f1', createdBy: 'mom', expiresAt: inDays(7) },
@@ -46,7 +46,7 @@ async function seedFamily() {
 
 const createFamilyBatch = (uid, name = 'Mine', fid = 'f2') => {
   const b = writeBatch(db(uid));
-  b.set(doc(db(uid), `families/${fid}`), { name, createdBy: uid, createdAt: serverTimestamp() });
+  b.set(doc(db(uid), `families/${fid}`), { name, createdBy: uid, createdAt: serverTimestamp(), memberIds: [uid] });
   b.set(doc(db(uid), `families/${fid}/members/${uid}`),
     { role: 'parent', displayName: 'Dad', joinedAt: serverTimestamp() });
   b.update(doc(db(uid), `users/${uid}`), { familyId: fid });
@@ -171,10 +171,11 @@ test('the requester and parents read a request; others cannot', async () => {
 });
 
 // ---- approval ----
-const approveBatch = (by, uid, role = 'child', name = 'Teen') => {
+const approveBatch = (by, uid, role = 'child', name = 'Teen', addToList = true) => {
   const b = writeBatch(db(by));
   b.set(doc(db(by), `families/f1/members/${uid}`), { role, displayName: name, joinedAt: serverTimestamp() });
   b.update(doc(db(by), `families/f1/joinRequests/${uid}`), { status: 'approved' });
+  if (addToList) b.update(doc(db(by), 'families/f1'), { memberIds: arrayUnion(uid) });
   return b.commit();
 };
 
@@ -201,6 +202,12 @@ test('a child cannot approve, and nobody becomes a member without a request', as
   await assertFails(approveBatch('kid', 'teen'));
   await assertFails(approveBatch('mom', 'dad', 'parent', 'Dad'));
   await assertFails(setDoc(doc(db('teen'), 'families/f1/members/teen'), member('child', 'Teen')));
+});
+
+test('approval must add the new member to memberIds', async () => {
+  await seedFamily();
+  await seed({ 'families/f1/joinRequests/teen': { ...joinRequest('child', 'Teen'), createdAt: new Date() } });
+  await assertFails(approveBatch('mom', 'teen', 'child', 'Teen', false));
 });
 
 test('approval must keep the requested role', async () => {
@@ -232,10 +239,64 @@ test('members only rename themselves', async () => {
   await assertFails(updateDoc(doc(db('mom'), 'families/f1/members/kid'), { displayName: 'Bob' }));
 });
 
-test('only a parent deletes the family document', async () => {
+// Leaving or removing takes the uid out of memberIds in the same batch.
+const removeBatch = (by, uid) => {
+  const b = writeBatch(db(by));
+  b.delete(doc(db(by), `families/f1/members/${uid}`));
+  b.update(doc(db(by), 'families/f1'), { memberIds: arrayRemove(uid) });
+  return b.commit();
+};
+const deleteFamilyBatch = (uid) => {
+  const b = writeBatch(db(uid));
+  b.delete(doc(db(uid), 'families/f1'));
+  b.delete(doc(db(uid), `families/f1/members/${uid}`));
+  return b.commit();
+};
+
+test('memberIds only drops a uid whose member doc goes, and only adds one that arrives', async () => {
   await seedFamily();
-  await assertFails(deleteDoc(doc(db('kid'), 'families/f1')));
-  await assertSucceeds(deleteDoc(doc(db('mom'), 'families/f1')));
+  const f1 = (uid) => doc(db(uid), 'families/f1');
+  await assertFails(updateDoc(f1('kid'), { memberIds: arrayRemove('mom') }));
+  await assertFails(updateDoc(f1('mom'), { memberIds: arrayRemove('kid') }));
+  await assertFails(updateDoc(f1('mom'), { memberIds: arrayUnion('dad') }));
+  await assertFails(updateDoc(f1('mom'), { memberIds: ['mom'] }));
+  await assertFails(updateDoc(f1('dad'), { memberIds: arrayRemove('kid') }));
+  await assertSucceeds(updateDoc(f1('kid'), { memberIds: arrayUnion('kid') })); // a replay changes nothing
+  await assertSucceeds(removeBatch('kid', 'kid'));
+});
+
+test('a parent removes a member together with the memberIds entry', async () => {
+  await seedFamily();
+  await assertFails(removeBatch('kid', 'mom'));
+  await assertSucceeds(removeBatch('mom', 'kid'));
+});
+
+test('the family document goes only with its last member, a parent', async () => {
+  await seedFamily();
+  await seed({
+    'families/f1/members/dad': member('parent', 'Dad'),
+    'families/f1': { name: 'Lins', createdBy: 'mom', createdAt: new Date(), memberIds: ['mom', 'kid', 'dad'] },
+  });
+  await assertFails(deleteDoc(doc(db('mom'), 'families/f1')));
+  await assertFails(deleteFamilyBatch('mom'));
+  await assertSucceeds(removeBatch('mom', 'kid'));
+  await assertFails(deleteFamilyBatch('mom')); // dad is still a Parent
+  await assertSucceeds(removeBatch('mom', 'dad'));
+  await assertFails(deleteDoc(doc(db('mom'), 'families/f1'))); // own member doc must go too
+  await assertSucceeds(deleteFamilyBatch('mom'));
+});
+
+test('a child who is the last member cannot delete the family', async () => {
+  await seedFamily();
+  await seed({ 'families/f1': { name: 'Lins', createdBy: 'mom', createdAt: new Date(), memberIds: ['kid'] } });
+  await assertFails(deleteFamilyBatch('kid'));
+});
+
+test('nobody can delete a family doc to re-found it and read what is left', async () => {
+  await seedFamily();
+  await assertFails(deleteDoc(doc(db('mom'), 'families/f1')));
+  await assertFails(createFamilyBatch('dad', 'Mine', 'f1'));
+  await assertFails(getDocs(collection(db('dad'), 'families/f1/members')));
 });
 
 // ---- activity ----

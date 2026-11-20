@@ -122,6 +122,7 @@ class FamilyRepository {
             'name': name.trim(),
             'createdBy': uid,
             'createdAt': FieldValue.serverTimestamp(),
+            'memberIds': [uid],
           })
           ..set(ref.collection('members').doc(uid), {
             'role': Role.parent.name,
@@ -226,6 +227,9 @@ class FamilyRepository {
               })
               ..update(_requests(fid).doc(request.uid), {
                 'status': JoinStatus.approved.name,
+              })
+              ..update(_family(fid), {
+                'memberIds': FieldValue.arrayUnion([request.uid]),
               }))
             .commit(),
   );
@@ -236,29 +240,39 @@ class FamilyRepository {
 
   // ---- leaving ----
 
+  /// Removing, like leaving, takes the Member's Assessments with them
+  /// (docs/PRIVACY.md).
   Future<Result<void>> removeMember(String fid, String byUid, String uid) =>
-      guard(() {
-        final batch = _db.batch()..delete(_members(fid).doc(uid));
+      guard(() async {
+        final batch = await _withoutMember(fid, uid);
         addActivity(_db, batch, fid, byUid, 'member_left', refId: uid);
-        return batch.commit();
+        await batch.commit();
       });
 
-  /// Leaving removes our own Assessments from the Family (docs/PRIVACY.md).
   Future<Result<void>> leave(String fid, String uid) => guard(() async {
-    final mine = await _family(fid)
+    final batch = await _withoutMember(fid, uid);
+    addActivity(_db, batch, fid, uid, 'member_left');
+    batch.update(_user(uid), {'familyId': null});
+    await batch.commit();
+  });
+
+  /// A batch that deletes [uid]'s Assessments and members doc and drops
+  /// [uid] from `memberIds`.
+  Future<WriteBatch> _withoutMember(String fid, String uid) async {
+    final theirs = await _family(fid)
         .collection('assessments')
         .where('raterId', isEqualTo: uid)
         .get();
     final batch = _db.batch();
-    for (final d in mine.docs) {
+    for (final d in theirs.docs) {
       batch.delete(d.reference);
     }
-    addActivity(_db, batch, fid, uid, 'member_left');
-    batch
+    return batch
       ..delete(_members(fid).doc(uid))
-      ..update(_user(uid), {'familyId': null});
-    await batch.commit();
-  });
+      ..update(_family(fid), {
+        'memberIds': FieldValue.arrayRemove([uid]),
+      });
+  }
 
   /// The last Parent leaving: delete everything under the Family.
   /// shortcut: several batches; an interrupted run leaves unreadable orphans
@@ -268,11 +282,14 @@ class FamilyRepository {
       for (final d
           in (await _invites.where('familyId', isEqualTo: fid).get()).docs)
         d.reference,
-      for (final sub in ['activity', 'joinRequests', 'assessments'])
+      for (final sub in [
+        'activity',
+        'joinRequests',
+        'assessments',
+        'challenges',
+      ])
         for (final d in (await _family(fid).collection(sub).get()).docs)
           d.reference,
-      for (final d in (await _members(fid).get()).docs)
-        if (d.id != uid) d.reference,
     ];
     for (var i = 0; i < refs.length; i += _batchLimit) {
       final batch = _db.batch();
@@ -281,7 +298,17 @@ class FamilyRepository {
       }
       await batch.commit();
     }
-    // Last: the family doc needs our membership, so ours goes after it.
+    // The rules let memberIds lose one uid per write.
+    for (final d in (await _members(fid).get()).docs) {
+      if (d.id == uid) continue;
+      await (_db.batch()
+            ..delete(d.reference)
+            ..update(_family(fid), {
+              'memberIds': FieldValue.arrayRemove([d.id]),
+            }))
+          .commit();
+    }
+    // Last: the family doc needs us as its only member; ours goes with it.
     await (_db.batch()
           ..delete(_family(fid))
           ..delete(_members(fid).doc(uid))
@@ -315,14 +342,21 @@ class FamilyRepository {
     String? refId,
   }) => batch.set(
     db.collection('families').doc(fid).collection('activity').doc(),
-    {
-      'type': type,
-      'actorId': uid,
-      'refId': refId,
-      'createdAt': FieldValue.serverTimestamp(),
-      'expireAt': Timestamp.fromDate(DateTime.now().add(activityLifetime)),
-    },
+    activityData(uid, type, refId: refId),
   );
+
+  /// One `activity` doc (docs/DATA_MODEL.md); also written inside transactions.
+  static Map<String, Object?> activityData(
+    String uid,
+    String type, {
+    String? refId,
+  }) => {
+    'type': type,
+    'actorId': uid,
+    'refId': refId,
+    'createdAt': FieldValue.serverTimestamp(),
+    'expireAt': Timestamp.fromDate(DateTime.now().add(activityLifetime)),
+  };
 
   static JoinRequest _request(String uid, Map<String, dynamic> d) =>
       JoinRequest(

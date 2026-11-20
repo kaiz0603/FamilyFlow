@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../data/repositories/assessment_repository.dart';
 import '../data/repositories/auth_repository.dart';
+import '../data/repositories/challenge_repository.dart';
 import '../data/repositories/content_repository.dart';
 import '../data/repositories/family_repository.dart';
 import '../data/repositories/profile_repository.dart';
@@ -23,6 +24,7 @@ class FamilyFlowApp extends StatefulWidget {
     required this.profiles,
     required this.families,
     required this.assessments,
+    required this.challenges,
     required this.content,
     this.locale,
   });
@@ -31,6 +33,7 @@ class FamilyFlowApp extends StatefulWidget {
   final ProfileRepository profiles;
   final FamilyRepository families;
   final AssessmentRepository assessments;
+  final ChallengeRepository challenges;
   final ContentRepository content;
 
   /// Forces a locale (tests). Otherwise: the profile's language, else the device's.
@@ -62,6 +65,7 @@ class _FamilyFlowAppState extends State<FamilyFlowApp> {
         Provider.value(value: widget.profiles),
         Provider.value(value: widget.families),
         Provider.value(value: widget.assessments),
+        Provider.value(value: widget.challenges),
         Provider.value(value: widget.content),
         ChangeNotifierProvider.value(value: _session),
       ],

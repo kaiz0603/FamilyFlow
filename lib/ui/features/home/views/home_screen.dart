@@ -12,6 +12,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../core/assessment_labels.dart';
 import '../../../core/form_widgets.dart';
 import '../../../core/validators.dart';
+import '../../challenge/views/challenge_card.dart';
 import '../view_models/home_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -196,6 +197,8 @@ class _FamilyView extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     return _Page(
       children: [
+        const ChallengeCard(),
+        const SizedBox(height: 16),
         const _AssessmentCard(),
         const SizedBox(height: 16),
         if (vm.isParent) const _InviteCard(),
@@ -247,6 +250,8 @@ class _FamilyView extends StatelessWidget {
                   )
                 : null,
           ),
+        const SizedBox(height: 16),
+        const ActivityList(),
       ],
     );
   }

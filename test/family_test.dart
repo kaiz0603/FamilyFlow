@@ -58,6 +58,7 @@ void main() {
     () async {
       final fid = await createFamily();
       expect((await read('families/$fid'))!['name'], 'Lins');
+      expect((await read('families/$fid'))!['memberIds'], ['mom']);
       expect((await read('families/$fid/members/mom'))!['role'], 'parent');
       expect((await read('users/mom'))!['familyId'], fid);
     },
@@ -117,6 +118,7 @@ void main() {
     expect(pending.single.role, Role.child);
     await families.approve(fid, pending.single);
     expect((await read('families/$fid/members/kid'))!['role'], 'child');
+    expect((await read('families/$fid'))!['memberIds'], ['mom', 'kid']);
 
     await families.completeJoin(fid, 'kid');
     final kid = (await read('users/kid'))!;
@@ -139,6 +141,28 @@ void main() {
     expect(await families.watchMembers(fid, 'kid').first, isNull);
   });
 
+  test('removing a member deletes their assessments, not others', () async {
+    final fid = await createFamily();
+    await db.doc('families/$fid/members/kid').set({
+      'role': 'child',
+      'displayName': 'kid',
+    });
+    await db.doc('families/$fid').update({
+      'memberIds': ['mom', 'kid'],
+    });
+    for (final rater in ['kid', 'kid', 'mom']) {
+      await db.collection('families/$fid/assessments').add({'raterId': rater});
+    }
+
+    expect(await families.removeMember(fid, 'mom', 'kid'), isA<Ok<void>>());
+    final left = await db.collection('families/$fid/assessments').get();
+    expect([for (final d in left.docs) d['raterId']], ['mom']);
+    expect(await read('families/$fid/members/kid'), isNull);
+    expect((await read('families/$fid'))!['memberIds'], ['mom']);
+    final activity = await db.collection('families/$fid/activity').get();
+    expect(activity.docs.single['refId'], 'kid');
+  });
+
   test('a child or a non-last parent just leaves', () async {
     final fid = await createFamily();
     await db.doc('families/$fid/members/dad').set({
@@ -150,6 +174,7 @@ void main() {
     await families.leaveFamily(fid, profile('dad', Role.parent, familyId: fid));
     expect(await read('families/$fid'), isNotNull);
     expect(await read('families/$fid/members/dad'), isNull);
+    expect((await read('families/$fid'))!['memberIds'], ['mom']);
     expect((await read('users/dad'))!['familyId'], isNull);
   });
 
@@ -160,10 +185,12 @@ void main() {
       'role': 'child',
       'displayName': 'kid',
     });
+    await db.doc('families/$fid/challenges/c1').set({'status': 'active'});
 
     await families.leaveFamily(fid, profile('mom', Role.parent, familyId: fid));
     expect(await read('families/$fid'), isNull);
     expect(await count('families/$fid/members'), 0);
+    expect(await count('families/$fid/challenges'), 0);
     expect(await count('families/$fid/activity'), 0);
     expect(await count('invites'), 0);
     expect((await read('users/mom'))!['familyId'], isNull);

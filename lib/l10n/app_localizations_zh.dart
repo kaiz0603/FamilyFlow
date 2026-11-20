@@ -516,4 +516,88 @@ class AppLocalizationsZh extends AppLocalizations {
   String historyVersion(String major) {
     return 'v$major';
   }
+
+  @override
+  String get startChallenge => '设为亲子挑战';
+
+  @override
+  String get newChallengeTitle => '新的亲子挑战';
+
+  @override
+  String get challengeWeekInfo => '从今天起 7 天，每位参与者每天打卡一次。';
+
+  @override
+  String get challengeParticipants => '谁参加？';
+
+  @override
+  String get challengeNeedParticipant => '至少选一位参与者。';
+
+  @override
+  String get startAction => '开始';
+
+  @override
+  String get errChallengeActive => '家里本周已经有一个亲子挑战，请先完成它。';
+
+  @override
+  String get challengeTitle => '本周亲子挑战';
+
+  @override
+  String challengeDay(int day) {
+    return '第 $day 天（共 7 天）';
+  }
+
+  @override
+  String get checkInToday => '今天打卡';
+
+  @override
+  String get checkedInToday => '你今天已经打卡了。';
+
+  @override
+  String get challengeNone => '还没有亲子挑战。从建议卡片里选一个吧。';
+
+  @override
+  String get browseAdvice => '看看建议';
+
+  @override
+  String get challengeFinishedTitle => '本周挑战已结束';
+
+  @override
+  String challengeRowSummary(String name, int count) {
+    return '$name：$count/7 天';
+  }
+
+  @override
+  String get startNextChallenge => '开始下一个';
+
+  @override
+  String get formerMember => '已离开的成员';
+
+  @override
+  String get activityTitle => '最近动态';
+
+  @override
+  String get activityEmpty => '暂时没有动态。';
+
+  @override
+  String activityMemberJoined(String name) {
+    return '$name加入了家庭';
+  }
+
+  @override
+  String activityMemberLeft(String name) {
+    return '$name离开了家庭';
+  }
+
+  @override
+  String activityAssessmentDone(String name) {
+    return '$name完成了一次测评';
+  }
+
+  @override
+  String activityChallengeStarted(String name) {
+    return '$name发起了亲子挑战';
+  }
+
+  @override
+  String get activityChallengeFinished => '一周的亲子挑战结束了';
 }

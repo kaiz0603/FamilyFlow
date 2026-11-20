@@ -28,6 +28,3 @@ node_modules/
 legacy/local.properties
 legacy/.gradle/
 legacy/app/build/
-
-# Claude Code local settings
-.claude/settings.local.json

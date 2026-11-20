@@ -1,20 +1,24 @@
 // A second family member for manual testing against the local emulators, so one
 // phone emulator is enough for two-person flows. It writes exactly what the app writes.
 //
+//   node firebase/tests/scripts/actor.mjs parent <email> <name> <family>
+//                                     sign up a 40-year-old Parent, create a Family, print an Invite Code
 //   node firebase/tests/scripts/actor.mjs child <email> <name>   sign up a 14-year-old Child
 //   node firebase/tests/scripts/actor.mjs join <email> <code>    send a Join Request
 //   node firebase/tests/scripts/actor.mjs complete <email>       finish joining after approval
 //   node firebase/tests/scripts/actor.mjs show <email>           print profile and membership
 //   node firebase/tests/scripts/actor.mjs assess <email> <parentUid> <1..5>
 //                                     save a Child View answering every item with that value
+//   node firebase/tests/scripts/actor.mjs checkin <email> [YYYY-MM-DD]
+//                                     check in to the newest active Challenge (default: today, local)
 import { readFileSync } from 'node:fs';
 import { initializeApp } from 'firebase/app';
 import {
   connectAuthEmulator, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {
-  collection, connectFirestoreEmulator, doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp,
-  writeBatch,
+  arrayUnion, collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, limit, orderBy,
+  query, serverTimestamp, setDoc, Timestamp, updateDoc, where, writeBatch,
 } from 'firebase/firestore';
 
 const PASSWORD = 'testpass123'; // emulator-only test account
@@ -28,7 +32,31 @@ const [cmd, email, arg, arg2] = process.argv.slice(2);
 const signIn = async () => (await signInWithEmailAndPassword(auth, email, PASSWORD)).user.uid;
 const profileOf = async (uid) => (await getDoc(doc(db, `users/${uid}`))).data();
 
+const localDate = (t = new Date()) =>
+  `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+
 switch (cmd) {
+  case 'parent': {
+    const { user } = await createUserWithEmailAndPassword(auth, email, PASSWORD);
+    const uid = user.uid;
+    await setDoc(doc(db, `users/${uid}`), {
+      displayName: arg, role: 'parent', birthYear: new Date().getFullYear() - 40,
+      locale: 'en', familyId: null, createdAt: serverTimestamp(),
+    });
+    const fid = doc(collection(db, 'families')).id;
+    const b = writeBatch(db);
+    b.set(doc(db, `families/${fid}`), { name: arg2 ?? 'Family', createdBy: uid, createdAt: serverTimestamp(), memberIds: [uid] });
+    b.set(doc(db, `families/${fid}/members/${uid}`), { role: 'parent', displayName: arg, joinedAt: serverTimestamp() });
+    b.update(doc(db, `users/${uid}`), { familyId: fid });
+    await b.commit();
+    const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const code = Array.from({ length: 6 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join('');
+    await setDoc(doc(db, `invites/${code}`), {
+      familyId: fid, createdBy: uid, expiresAt: Timestamp.fromMillis(Date.now() + 6 * 86400000),
+    });
+    console.log('parent created', { uid, fid, code });
+    break;
+  }
   case 'child': {
     const { user } = await createUserWithEmailAndPassword(auth, email, PASSWORD);
     await setDoc(doc(db, `users/${user.uid}`), {
@@ -115,7 +143,19 @@ switch (cmd) {
     console.log('assessed', { warmth, demandingness, style });
     break;
   }
+  case 'checkin': {
+    // Mirrors ChallengeRepository.checkIn.
+    const uid = await signIn();
+    const fid = (await profileOf(uid)).familyId;
+    const found = await getDocs(query(collection(db, `families/${fid}/challenges`),
+      where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(1)));
+    if (found.empty) throw new Error('no active Challenge');
+    const day = arg ?? localDate();
+    await updateDoc(found.docs[0].ref, { [`checkIns.${uid}`]: arrayUnion(day) });
+    console.log('checked in', found.docs[0].id, day);
+    break;
+  }
   default:
-    console.log('commands: child | join | complete | show | assess');
+    console.log('commands: parent | child | join | complete | show | assess | checkin');
 }
 process.exit(0);

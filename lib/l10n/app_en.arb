@@ -320,5 +320,74 @@
         "type": "String"
       }
     }
-  }
+  },
+  "startChallenge": "Start as a Family Challenge",
+  "newChallengeTitle": "New Challenge",
+  "challengeWeekInfo": "7 days from today. Each Participant checks in once a day.",
+  "challengeParticipants": "Who takes part?",
+  "challengeNeedParticipant": "Pick at least one person.",
+  "startAction": "Start",
+  "errChallengeActive": "Your family already has a Challenge this week. Finish that one first.",
+  "challengeTitle": "This week's Challenge",
+  "challengeDay": "Day {day} of 7",
+  "@challengeDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "checkInToday": "Check in today",
+  "checkedInToday": "You checked in today.",
+  "challengeNone": "No Challenge yet. Pick one from an Advice card.",
+  "browseAdvice": "Browse Advice",
+  "challengeFinishedTitle": "Week finished",
+  "challengeRowSummary": "{name}: {count} of 7 days",
+  "@challengeRowSummary": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "startNextChallenge": "Start the next one",
+  "formerMember": "Former member",
+  "activityTitle": "Recent activity",
+  "activityEmpty": "Nothing yet.",
+  "activityMemberJoined": "{name} joined the family",
+  "@activityMemberJoined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityMemberLeft": "{name} left the family",
+  "@activityMemberLeft": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityAssessmentDone": "{name} finished an Assessment",
+  "@activityAssessmentDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityChallengeStarted": "{name} started a Challenge",
+  "@activityChallengeStarted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityChallengeFinished": "A Challenge week finished"
 }

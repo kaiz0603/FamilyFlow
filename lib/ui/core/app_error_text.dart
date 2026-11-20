@@ -12,6 +12,7 @@ extension AppErrorText on AppError {
     AppError.requiresRecentLogin => l.errRequiresRecentLogin,
     AppError.permissionDenied => l.errPermissionDenied,
     AppError.invalidInviteCode => l.errInvalidInviteCode,
+    AppError.challengeActive => l.errChallengeActive,
     AppError.unknown => l.errUnknown,
   };
 }

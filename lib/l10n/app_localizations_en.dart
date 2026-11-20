@@ -550,4 +550,90 @@ class AppLocalizationsEn extends AppLocalizations {
   String historyVersion(String major) {
     return 'v$major';
   }
+
+  @override
+  String get startChallenge => 'Start as a Family Challenge';
+
+  @override
+  String get newChallengeTitle => 'New Challenge';
+
+  @override
+  String get challengeWeekInfo =>
+      '7 days from today. Each Participant checks in once a day.';
+
+  @override
+  String get challengeParticipants => 'Who takes part?';
+
+  @override
+  String get challengeNeedParticipant => 'Pick at least one person.';
+
+  @override
+  String get startAction => 'Start';
+
+  @override
+  String get errChallengeActive =>
+      'Your family already has a Challenge this week. Finish that one first.';
+
+  @override
+  String get challengeTitle => 'This week\'s Challenge';
+
+  @override
+  String challengeDay(int day) {
+    return 'Day $day of 7';
+  }
+
+  @override
+  String get checkInToday => 'Check in today';
+
+  @override
+  String get checkedInToday => 'You checked in today.';
+
+  @override
+  String get challengeNone => 'No Challenge yet. Pick one from an Advice card.';
+
+  @override
+  String get browseAdvice => 'Browse Advice';
+
+  @override
+  String get challengeFinishedTitle => 'Week finished';
+
+  @override
+  String challengeRowSummary(String name, int count) {
+    return '$name: $count of 7 days';
+  }
+
+  @override
+  String get startNextChallenge => 'Start the next one';
+
+  @override
+  String get formerMember => 'Former member';
+
+  @override
+  String get activityTitle => 'Recent activity';
+
+  @override
+  String get activityEmpty => 'Nothing yet.';
+
+  @override
+  String activityMemberJoined(String name) {
+    return '$name joined the family';
+  }
+
+  @override
+  String activityMemberLeft(String name) {
+    return '$name left the family';
+  }
+
+  @override
+  String activityAssessmentDone(String name) {
+    return '$name finished an Assessment';
+  }
+
+  @override
+  String activityChallengeStarted(String name) {
+    return '$name started a Challenge';
+  }
+
+  @override
+  String get activityChallengeFinished => 'A Challenge week finished';
 }

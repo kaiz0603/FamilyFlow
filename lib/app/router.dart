@@ -9,6 +9,8 @@ import '../ui/features/advice/view_models/advice_view_model.dart';
 import '../ui/features/advice/views/advice_screen.dart';
 import '../ui/features/assessment/view_models/assessment_view_model.dart';
 import '../ui/features/assessment/views/assessment_screen.dart';
+import '../ui/features/challenge/view_models/challenge_view_model.dart';
+import '../ui/features/challenge/views/start_challenge_screen.dart';
 import '../ui/features/compare/view_models/compare_view_model.dart';
 import '../ui/features/compare/views/compare_screen.dart';
 import '../ui/features/home/view_models/home_view_model.dart';
@@ -37,6 +39,12 @@ abstract final class Routes {
   /// `/assessment/<subjectParentId>?name=<display name>`
   static String assessment(String subjectParentId, String name) =>
       '/assessment/$subjectParentId?name=${Uri.encodeQueryComponent(name)}';
+
+  /// `/challenge/start?adviceId=<id>&title=<challenge text>`
+  static String startChallenge(String adviceId, String title) => Uri(
+    path: '/challenge/start',
+    queryParameters: {'adviceId': adviceId, 'title': title},
+  ).toString();
 
   static const signedOutOnly = {welcome, signIn, signUp};
 }
@@ -102,6 +110,20 @@ GoRouter createRouter(Session session) => GoRouter(
         child: const AssessmentScreen(),
       ),
     ),
+    GoRoute(
+      path: '/challenge/start',
+      builder: (context, state) => ChangeNotifierProvider(
+        create: (c) => ChallengeViewModel(
+          session: c.read(),
+          families: c.read(),
+          challenges: c.read(),
+        ),
+        child: StartChallengeScreen(
+          adviceId: state.uri.queryParameters['adviceId'] ?? '',
+          title: state.uri.queryParameters['title'] ?? '',
+        ),
+      ),
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => ShellScaffold(shell: shell),
       branches: [
@@ -109,12 +131,23 @@ GoRouter createRouter(Session session) => GoRouter(
           routes: [
             GoRoute(
               path: Routes.home,
-              builder: (context, _) => ChangeNotifierProvider(
-                create: (c) => HomeViewModel(
-                  session: c.read(),
-                  families: c.read(),
-                  assessmentRepo: c.read(),
-                ),
+              builder: (context, _) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                    create: (c) => HomeViewModel(
+                      session: c.read(),
+                      families: c.read(),
+                      assessmentRepo: c.read(),
+                    ),
+                  ),
+                  ChangeNotifierProvider(
+                    create: (c) => ChallengeViewModel(
+                      session: c.read(),
+                      families: c.read(),
+                      challenges: c.read(),
+                    ),
+                  ),
+                ],
                 child: const HomeScreen(),
               ),
             ),

@@ -1,4 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
+
+import '../../app/router.dart';
+import '../../app/session.dart';
 
 import '../../domain/models/assessment.dart';
 import '../../l10n/app_localizations.dart';
@@ -51,6 +56,18 @@ class AdviceCard extends StatelessWidget {
               style: TextStyle(color: scheme.onSecondaryContainer),
             ),
           ),
+          // Advice-only mode (no Family) has nobody to share a Challenge with.
+          if (context.watch<Session>().profile?.familyId != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: () => context.push(
+                  Routes.startChallenge(advice.id, advice.challenge),
+                ),
+                icon: const Icon(Icons.flag_outlined),
+                label: Text(l.startChallenge),
+              ),
+            ),
         ],
       ),
     );

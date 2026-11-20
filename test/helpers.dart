@@ -1,6 +1,7 @@
 import 'package:familyflow/app/app.dart';
 import 'package:familyflow/data/repositories/assessment_repository.dart';
 import 'package:familyflow/data/repositories/auth_repository.dart';
+import 'package:familyflow/data/repositories/challenge_repository.dart';
 import 'package:familyflow/data/repositories/content_repository.dart';
 import 'package:familyflow/data/repositories/family_repository.dart';
 import 'package:familyflow/data/repositories/profile_repository.dart';
@@ -30,10 +31,16 @@ class TestApp {
     String? signedInUid,
     Map<String, Object?>? profile,
     FakeFirebaseFirestore? db,
-  }) : auth = MockFirebaseAuth(
-         signedIn: signedInUid != null,
-         mockUser: MockUser(uid: signedInUid ?? 'u1', email: 'a@example.com'),
-       ),
+    MockFirebaseAuth? auth,
+  }) : auth =
+           auth ??
+           MockFirebaseAuth(
+             signedIn: signedInUid != null,
+             mockUser: MockUser(
+               uid: signedInUid ?? 'u1',
+               email: 'a@example.com',
+             ),
+           ),
        db = db ?? FakeFirebaseFirestore() {
     SharedPreferences.setMockInitialValues({});
     if (signedInUid != null && profile != null) {
@@ -49,6 +56,7 @@ class TestApp {
     profiles: ProfileRepository(db),
     families: FamilyRepository(db),
     assessments: AssessmentRepository(db),
+    challenges: ChallengeRepository(db),
     content: ContentRepository(),
     locale: locale,
   );

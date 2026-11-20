@@ -1009,6 +1009,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'v{major}'**
   String historyVersion(String major);
+
+  /// No description provided for @startChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Start as a Family Challenge'**
+  String get startChallenge;
+
+  /// No description provided for @newChallengeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Challenge'**
+  String get newChallengeTitle;
+
+  /// No description provided for @challengeWeekInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days from today. Each Participant checks in once a day.'**
+  String get challengeWeekInfo;
+
+  /// No description provided for @challengeParticipants.
+  ///
+  /// In en, this message translates to:
+  /// **'Who takes part?'**
+  String get challengeParticipants;
+
+  /// No description provided for @challengeNeedParticipant.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one person.'**
+  String get challengeNeedParticipant;
+
+  /// No description provided for @startAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get startAction;
+
+  /// No description provided for @errChallengeActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Your family already has a Challenge this week. Finish that one first.'**
+  String get errChallengeActive;
+
+  /// No description provided for @challengeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This week\'s Challenge'**
+  String get challengeTitle;
+
+  /// No description provided for @challengeDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day} of 7'**
+  String challengeDay(int day);
+
+  /// No description provided for @checkInToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in today'**
+  String get checkInToday;
+
+  /// No description provided for @checkedInToday.
+  ///
+  /// In en, this message translates to:
+  /// **'You checked in today.'**
+  String get checkedInToday;
+
+  /// No description provided for @challengeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No Challenge yet. Pick one from an Advice card.'**
+  String get challengeNone;
+
+  /// No description provided for @browseAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Advice'**
+  String get browseAdvice;
+
+  /// No description provided for @challengeFinishedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Week finished'**
+  String get challengeFinishedTitle;
+
+  /// No description provided for @challengeRowSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {count} of 7 days'**
+  String challengeRowSummary(String name, int count);
+
+  /// No description provided for @startNextChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the next one'**
+  String get startNextChallenge;
+
+  /// No description provided for @formerMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Former member'**
+  String get formerMember;
+
+  /// No description provided for @activityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent activity'**
+  String get activityTitle;
+
+  /// No description provided for @activityEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet.'**
+  String get activityEmpty;
+
+  /// No description provided for @activityMemberJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} joined the family'**
+  String activityMemberJoined(String name);
+
+  /// No description provided for @activityMemberLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} left the family'**
+  String activityMemberLeft(String name);
+
+  /// No description provided for @activityAssessmentDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} finished an Assessment'**
+  String activityAssessmentDone(String name);
+
+  /// No description provided for @activityChallengeStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} started a Challenge'**
+  String activityChallengeStarted(String name);
+
+  /// No description provided for @activityChallengeFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'A Challenge week finished'**
+  String get activityChallengeFinished;
 }
 
 class _AppLocalizationsDelegate
