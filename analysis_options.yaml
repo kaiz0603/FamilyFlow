@@ -1,0 +1,9 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    # gen-l10n output still uses the pre-material_ui delegates (Flutter 3.50).
+    - lib/l10n/app_localizations*.dart

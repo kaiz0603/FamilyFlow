@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <!-- Dev only: google-services.json would start [DEFAULT] natively with the real dev
+             project, and Dart's initializeApp with the emulator project (demo-familyflow)
+             then fails with [core/duplicate-app]. Dart starts Firebase itself in main.dart. -->
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="${applicationId}.firebaseinitprovider"
+            tools:node="remove" />
+    </application>
+</manifest>

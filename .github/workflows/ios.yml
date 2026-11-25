@@ -1,0 +1,20 @@
+name: iOS build check
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.50.0'
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      # shortcut: iOS has no dev/prod schemes yet (needs Xcode on a Mac); builds the default scheme.
+      - run: flutter build ios --release --no-codesign --dart-define=ENV=prod

@@ -1,11 +1,55 @@
+# FamilyFlow
 
-# FamilyFlow (Java + Fragments + NavController)
-最小可运行骨架，包含：
-- 家庭编号生成/校验（SharedPreferences）
-- 问卷保存（SharedPreferences）
-- 个性化/普通内容切换（读取问卷偏好）
+**English** · [中文](#中文)
 
-**导入方式 A（推荐）**：Android Studio -> Open -> 选择解压目录 `FamilyFlow` -> 等待 Gradle 同步 -> 运行。
-若提示 Gradle Wrapper 缺失，Android Studio 会自动生成；或者你可以新建空项目后，将本项目的 `app/` 替换你的 `app/`。
+FamilyFlow helps parents and teenagers see how each of them experiences the family's parenting style, and turns the difference into one small weekly challenge.
 
-目标 SDK: 35，最小 24。
+- **Two views, one chart.** A parent rates their own parenting. Each child (13+) rates each parent. Both land on the same Warmth × Demandingness chart.
+- **Private by design.** Parents see a child's overall scores, never individual answers.
+- **Real families.** Invite codes with parent approval, multiple parents and children per family, live sync across phones.
+- **Act on it.** An advice library for every parenting style, plus weekly family challenges with daily check-ins and reminders.
+- **Bilingual.** Simplified Chinese and English.
+
+<p>
+  <img src=".github/screenshots/welcome-en.png" width="200" alt="Welcome screen">
+  <img src=".github/screenshots/home-en.png" width="200" alt="Home with this week's Challenge">
+  <img src=".github/screenshots/compare-en.png" width="200" alt="Compare: Mom's self-check and two children's views">
+  <img src=".github/screenshots/advice-en.png" width="200" alt="Advice for a screen-time situation">
+</p>
+
+### Tech
+Flutter (Android + iOS) · Firebase Auth, Cloud Firestore, Crashlytics · go_router · provider (MVVM, official Flutter architecture) · fl_chart · Firestore security rules with emulator tests · GitHub Actions CI.
+
+### Getting started
+You will need the Flutter SDK (stable), Android Studio, Node 20+, and the Firebase CLI.
+
+```bash
+npm i -g firebase-tools
+firebase emulators:start --only auth,firestore
+flutter run --flavor dev --dart-define=ENV=dev
+```
+
+FamilyFlow is a self-reflection tool, not a psychological assessment.
+
+---
+
+## 中文
+
+FamilyFlow 帮助父母和青少年子女看清彼此眼中的家庭教养方式，并把差距变成每周一个小小的亲子挑战。
+
+- **两个视角，一张图**：家长自评，每个孩子（13 岁以上）分别评每位家长，结果落在同一张“温暖回应 × 规则要求”四象限图上。
+- **隐私优先**：家长只能看到孩子的总体得分，看不到孩子每道题的答案。
+- **真正的家庭**：邀请码 + 家长审批加入，支持多位家长和多个孩子，多台手机实时同步。
+- **落到行动**：按四种教养方式分类的建议库，以及每周亲子挑战、每日打卡和提醒。
+- **双语**：简体中文与英文。
+
+<p>
+  <img src=".github/screenshots/welcome-zh.png" width="200" alt="欢迎页">
+  <img src=".github/screenshots/home-zh.png" width="200" alt="首页：本周亲子挑战">
+  <img src=".github/screenshots/compare-zh.png" width="200" alt="对比：妈妈自评与两个孩子的视角">
+  <img src=".github/screenshots/advice-zh.png" width="200" alt="建议：屏幕时间情境">
+</p>
+
+技术栈：Flutter（Android + iOS）、Firebase Auth、Cloud Firestore、Crashlytics、go_router、provider（MVVM，Flutter 官方架构）、fl_chart、带模拟器测试的 Firestore 安全规则、GitHub Actions CI。
+
+本应用是帮助家庭自我反思的工具，不是心理诊断。

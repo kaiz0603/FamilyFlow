@@ -1,0 +1,406 @@
+{
+  "@@locale": "en",
+  "appTitle": "FamilyFlow",
+  "tabHome": "Home",
+  "@tabHome": {
+    "description": "Bottom navigation tab: family activity and entry cards"
+  },
+  "tabCompare": "Compare",
+  "@tabCompare": {
+    "description": "Bottom navigation tab: parent vs child perception chart"
+  },
+  "tabAdvice": "Advice",
+  "@tabAdvice": {
+    "description": "Bottom navigation tab: advice library"
+  },
+  "tabSettings": "Settings",
+  "@tabSettings": {
+    "description": "Bottom navigation tab: settings"
+  },
+  "welcomeTagline": "See your family through each other's eyes.",
+  "@welcomeTagline": {
+    "description": "Welcome screen subtitle"
+  },
+  "signIn": "Sign in",
+  "continueWithGoogle": "Continue with Google",
+  "signUp": "Create account",
+  "signOut": "Sign out",
+  "email": "Email",
+  "password": "Password",
+  "passwordHint": "At least 8 characters",
+  "forgotPassword": "Forgot password?",
+  "resetPasswordTitle": "Reset password",
+  "resetPasswordBody": "We'll email you a link to set a new password.",
+  "sendLink": "Send link",
+  "resetEmailSent": "If an account exists for that email, a reset link is on its way.",
+  "noAccountYet": "New to FamilyFlow? Create an account",
+  "haveAccount": "Already have an account? Sign in",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "continueAction": "Continue",
+  "profileSetupTitle": "About you",
+  "profileSetupIntro": "This sets which questionnaire and advice you get. Your role and birth year can't be changed later.",
+  "roleLabel": "I am a",
+  "roleParent": "Parent",
+  "roleChild": "Child",
+  "displayName": "Name shown to your family",
+  "birthYear": "Birth year",
+  "childPrivacyNote": "Your parents will only see your overall scores, never your individual answers.",
+  "useAnotherAccount": "Use a different account",
+  "underAgeTitle": "FamilyFlow is for ages 13 and up",
+  "underAgeBody": "Thanks for your interest! FamilyFlow is not available for children under 13 yet. This account will be removed and no information is kept.",
+  "parentTooYoung": "Parents must be 18 or older. If you're under 18, choose Child.",
+  "fieldRequired": "Required",
+  "invalidEmailField": "Enter a valid email",
+  "passwordTooShort": "Use at least 8 characters",
+  "nameTooLong": "{max} characters at most",
+  "@nameTooLong": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsProfile": "Profile",
+  "settingsLanguage": "Language",
+  "languageZh": "中文",
+  "languageEn": "English",
+  "deleteAccount": "Delete account",
+  "deleteAccountBody": "This permanently deletes your profile and sign-in. It cannot be undone. Enter your password to confirm.",
+  "deleteAccountConfirm": "Delete permanently",
+  "errNetwork": "No connection. Check your internet and try again.",
+  "errInvalidCredentials": "Email or password is incorrect.",
+  "errEmailInUse": "An account with this email already exists. Try signing in.",
+  "errWeakPassword": "That password is too weak. Use at least 8 characters.",
+  "errInvalidEmail": "That email address doesn't look right.",
+  "errTooManyRequests": "Too many attempts. Wait a moment and try again.",
+  "errRequiresRecentLogin": "For your security, sign in again and retry.",
+  "errPermissionDenied": "You don't have permission to do that.",
+  "errUnknown": "Something went wrong. Please try again.",
+  "familySetupTitle": "Set up your family",
+  "familySetupParentBody": "Create a family and invite your children, or join your partner's family with their invite code.",
+  "familySetupChildBody": "Ask a parent for your family's invite code, then send a request to join.",
+  "createFamily": "Create family",
+  "familyName": "Family name",
+  "familyNameHint": "e.g. The Lins",
+  "joinFamily": "Join with a code",
+  "inviteCode": "Invite code",
+  "sendRequest": "Send request",
+  "requestPendingTitle": "Waiting for approval",
+  "requestPendingBody": "A parent in the family needs to approve your request. You'll move in automatically.",
+  "cancelRequest": "Cancel request",
+  "requestRejectedTitle": "Request declined",
+  "requestRejectedBody": "A parent declined your request. Check the code with them and try again.",
+  "inviteTitle": "Invite family members",
+  "inviteBody": "Share this code. You'll approve each person before they join.",
+  "inviteExpires": "Expires {date}",
+  "@inviteExpires": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "generateCode": "Get an invite code",
+  "newCode": "New code",
+  "share": "Share",
+  "inviteShareText": "Join our family on FamilyFlow with invite code {code}",
+  "@inviteShareText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "pendingRequestsTitle": "Waiting to join",
+  "approve": "Approve",
+  "reject": "Decline",
+  "membersTitle": "Members",
+  "youSuffix": "(you)",
+  "removeMember": "Remove",
+  "removeMemberTitle": "Remove {name}?",
+  "@removeMemberTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeMemberBody": "They lose access to this family's results and challenges.",
+  "leaveFamily": "Leave family",
+  "leaveFamilyBody": "You'll stop seeing this family's results and challenges. Your own results here are removed.",
+  "leaveFamilyLastParentBody": "If you are the last parent, the family is removed for everyone.",
+  "deleteAccountGoogleNote": "Next, confirm with your Google account.",
+  "deleteAccountFamilyNote": "You will also leave your family. If you are its last parent, the family is removed for everyone.",
+  "errInvalidInviteCode": "That code doesn't work. It may have expired — ask for a new one.",
+  "assessmentTitleSelf": "Parenting self-check",
+  "assessmentTitleChild": "How you see {name}",
+  "@assessmentTitleChild": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "assessmentIntro": "24 statements, about 5 minutes. Answer how things usually are. There are no right or wrong answers.",
+  "assessmentDisclaimer": "This is a self-reflection tool for families, not a psychological assessment. If you or someone in your family feels persistently distressed or unsafe, please reach out to a school counsellor or a professional.",
+  "assessmentChildPrivacy": "{name} will see your overall scores and style, never your individual answers.",
+  "@assessmentChildPrivacy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "startAssessment": "Start",
+  "resumeAssessment": "Continue where you left off",
+  "questionProgress": "{current} of {total}",
+  "@questionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "previousQuestion": "Back",
+  "seeResult": "See my result",
+  "resultTitle": "Your result",
+  "resultLeadSelf": "Your style is closest to",
+  "resultLeadChild": "In your eyes, {name}'s style is closest to",
+  "@resultLeadChild": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dimWarmth": "Warmth",
+  "dimDemandingness": "Demandingness",
+  "styleAuthoritative": "Authoritative",
+  "styleAuthoritarian": "Authoritarian",
+  "stylePermissive": "Permissive",
+  "styleNeglectful": "Neglectful",
+  "styleDescAuthoritative": "High warmth and high demandingness: caring about feelings while keeping clear rules that are explained.",
+  "styleDescAuthoritarian": "High demandingness, lower warmth: discipline and obedience come first, with less explaining and listening.",
+  "styleDescPermissive": "High warmth, lower demandingness: a close relationship, with few rules or little follow-through.",
+  "styleDescNeglectful": "Lower warmth and lower demandingness: little day-to-day attention or structure, which is common when a family is busy or under stress.",
+  "tryThis": "Try this",
+  "seeAllAdvice": "See all advice",
+  "done": "Done",
+  "selfCheckTitle": "Your self-check",
+  "notDoneYet": "Not done yet",
+  "lastResult": "Last: {style} · {date}",
+  "@lastResult": {
+    "placeholders": {
+      "style": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "takeIt": "Start",
+  "retake": "Retake",
+  "rateParentsTitle": "Rate your parents",
+  "notRatedYet": "Not rated yet",
+  "rateAction": "Rate",
+  "allStyles": "All styles",
+  "allTopics": "All topics",
+  "tagBedtime": "Bedtime",
+  "tagScreens": "Screens",
+  "tagStudy": "Study",
+  "tagFriends": "Friends",
+  "tagChores": "Chores",
+  "tagEmotions": "Emotions",
+  "tagMoney": "Money",
+  "tagRespect": "Respect",
+  "weeklyChallenge": "This week's challenge",
+  "adviceEmpty": "No advice matches these filters.",
+  "compareNoFamily": "Create or join a Family on Home to compare views.",
+  "compareSelfName": "{name} (self)",
+  "@compareSelfName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "compareInviteSelf": "Take your self-check to put your own view on the chart.",
+  "compareInviteChildren": "Ask your Children to rate you. Their views show up here.",
+  "compareNoChildren": "No Children in the Family yet. Invite one from Home.",
+  "compareParentNoSelf": "{parent} has not done a self-check yet. Ask them to take it.",
+  "@compareParentNoSelf": {
+    "placeholders": {
+      "parent": {
+        "type": "String"
+      }
+    }
+  },
+  "compareChildNone": "Rate a Parent to see how your views compare.",
+  "compareRateParent": "Rate {parent}",
+  "@compareRateParent": {
+    "placeholders": {
+      "parent": {
+        "type": "String"
+      }
+    }
+  },
+  "gapSame": "{child} and {parent} see {dimension, select, warmth{warmth} other{demandingness}} about the same way.",
+  "@gapSame": {
+    "placeholders": {
+      "child": {
+        "type": "String"
+      },
+      "parent": {
+        "type": "String"
+      },
+      "dimension": {
+        "type": "String"
+      }
+    }
+  },
+  "gapDiff": "{child} experiences {size, select, large{much} other{a bit}} {direction, select, more{more} other{less}} {dimension, select, warmth{warmth} other{demandingness}} than {parent} sees in their self-check.",
+  "@gapDiff": {
+    "placeholders": {
+      "child": {
+        "type": "String"
+      },
+      "parent": {
+        "type": "String"
+      },
+      "dimension": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      },
+      "direction": {
+        "type": "String"
+      }
+    }
+  },
+  "chartQuadrantLabel": "Quadrant chart. Warmth runs across, demandingness up, the midpoint is 50.",
+  "chartPoint": "{name}: warmth {warmth}, demandingness {demandingness}, {style}.",
+  "@chartPoint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "warmth": {
+        "type": "int"
+      },
+      "demandingness": {
+        "type": "int"
+      },
+      "style": {
+        "type": "String"
+      }
+    }
+  },
+  "chartEmpty": "No results yet.",
+  "historyTitle": "History",
+  "historySummary": "{dimension} over time. {series}",
+  "@historySummary": {
+    "placeholders": {
+      "dimension": {
+        "type": "String"
+      },
+      "series": {
+        "type": "String"
+      }
+    }
+  },
+  "historyNotComparable": "A dashed line marks a new question version. Scores on either side of it are not directly comparable.",
+  "historyVersion": "v{major}",
+  "@historyVersion": {
+    "placeholders": {
+      "major": {
+        "type": "String"
+      }
+    }
+  },
+  "startChallenge": "Start as a Family Challenge",
+  "newChallengeTitle": "New Challenge",
+  "challengeWeekInfo": "7 days from today. Each Participant checks in once a day.",
+  "challengeParticipants": "Who takes part?",
+  "challengeNeedParticipant": "Pick at least one person.",
+  "startAction": "Start",
+  "errChallengeActive": "Your family already has a Challenge this week. Finish that one first.",
+  "challengeTitle": "This week's Challenge",
+  "challengeDay": "Day {day} of 7",
+  "@challengeDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "checkInToday": "Check in today",
+  "checkedInToday": "You checked in today.",
+  "challengeNone": "No Challenge yet. Pick one from an Advice card.",
+  "browseAdvice": "Browse Advice",
+  "challengeFinishedTitle": "Week finished",
+  "challengeRowSummary": "{name}: {count} of 7 days",
+  "@challengeRowSummary": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "startNextChallenge": "Start the next one",
+  "formerMember": "Former member",
+  "activityTitle": "Recent activity",
+  "activityEmpty": "Nothing yet.",
+  "activityMemberJoined": "{name} joined the family",
+  "@activityMemberJoined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityMemberLeft": "{name} left the family",
+  "@activityMemberLeft": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityAssessmentDone": "{name} finished an Assessment",
+  "@activityAssessmentDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityChallengeStarted": "{name} started a Challenge",
+  "@activityChallengeStarted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityChallengeFinished": "A Challenge week finished",
+  "settingsReminders": "Reminders",
+  "remindersWeekly": "Weekly check-in",
+  "remindersWeeklySubtitle": "Once a week: how is the family doing?",
+  "remindersDaily": "Daily Challenge check-in",
+  "remindersDailySubtitle": "Every day of a Challenge you take part in, until you check in.",
+  "remindersDay": "Day",
+  "remindersTime": "Time",
+  "remindersPermissionDenied": "Notifications are blocked for this app. Allow them in the system settings to get Reminders.",
+  "reminderWeeklyBody": "Take a minute to check in with your family.",
+  "reminderDailyBody": "Don't forget today's Challenge check-in.",
+  "privacyPolicy": "Privacy policy"
+}

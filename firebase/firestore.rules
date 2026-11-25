@@ -1,0 +1,330 @@
+rules_version = '2';
+
+// The rules are the backend (docs/DATA_MODEL.md). Anything not matched is denied.
+// Inside a batch, exists()/get() see the state before it and existsAfter()/getAfter() after it.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+    function userPath(uid) {
+      return /databases/$(database)/documents/users/$(uid);
+    }
+    function myProfile() {
+      return get(userPath(request.auth.uid)).data;
+    }
+    function familyPath(fid) {
+      return /databases/$(database)/documents/families/$(fid);
+    }
+    function memberPath(fid, uid) {
+      return /databases/$(database)/documents/families/$(fid)/members/$(uid);
+    }
+    function requestPath(fid, uid) {
+      return /databases/$(database)/documents/families/$(fid)/joinRequests/$(uid);
+    }
+    function invitePath(code) {
+      return /databases/$(database)/documents/invites/$(code);
+    }
+    function isMember(fid) {
+      return signedIn() && exists(memberPath(fid, request.auth.uid));
+    }
+    function isParentMember(fid) {
+      return isMember(fid) && get(memberPath(fid, request.auth.uid)).data.role == 'parent';
+    }
+    function validName(name, max) {
+      return name is string && name.size() >= 1 && name.size() <= max;
+    }
+    function onlyChanged(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+    function exactKeys(data, keys) {
+      return data.keys().hasAll(keys) && data.keys().hasOnly(keys);
+    }
+    function validCode(code) {
+      return code is string && code.matches('^[A-HJ-NP-Z2-9]{6}$');
+    }
+    // The SDK re-sends a write whose acknowledgement was lost; the replayed set()
+    // arrives as an update that changes only its server timestamp.
+    function isReplay() {
+      return onlyChanged(['createdAt']) && request.resource.data.createdAt == request.time;
+    }
+
+    // ---- users/{uid}: private profile ----
+    match /users/{uid} {
+      function ageOn(data) {
+        return request.time.year() - data.birthYear;
+      }
+      function validNewProfile(data) {
+        return data.keys().hasAll(['displayName', 'role', 'birthYear', 'locale', 'createdAt'])
+          && data.keys().hasOnly(['displayName', 'role', 'birthYear', 'locale', 'familyId', 'createdAt'])
+          && validName(data.displayName, 30)
+          && data.locale in ['zh', 'en']
+          && data.role in ['parent', 'child']
+          && data.birthYear is int && data.birthYear >= 1900
+          // Year-only age: someone 12 and some months can pass (docs/PRIVACY.md).
+          && ageOn(data) >= (data.role == 'parent' ? 18 : 13)
+          && data.get('familyId', null) == null
+          && data.createdAt == request.time;
+      }
+      function validProfileUpdate(data) {
+        let fid = data.get('familyId', null);
+        let pending = data.get('pendingFamilyId', null);
+        return onlyChanged(['displayName', 'locale', 'familyId', 'pendingFamilyId'])
+          && validName(data.displayName, 30)
+          && data.locale in ['zh', 'en']
+          // Point at a Family only as its Member, a pending request only if it exists.
+          && (fid == null || (fid is string && existsAfter(memberPath(fid, uid))))
+          && (pending == null || (pending is string && existsAfter(requestPath(pending, uid))));
+      }
+
+      allow read, delete: if isOwner(uid);
+      allow create: if isOwner(uid) && validNewProfile(request.resource.data);
+      allow update: if isOwner(uid) && validProfileUpdate(request.resource.data);
+
+      // Item answers: the rater only, never Parents (docs/adr/0006).
+      match /answers/{assessmentId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && exactKeys(request.resource.data, ['familyId', 'answers', 'contentVersion', 'createdAt'])
+          && request.resource.data.familyId is string
+          && request.resource.data.answers is map
+          && request.resource.data.answers.size() == 24
+          && request.resource.data.contentVersion is string
+          && request.resource.data.createdAt == request.time;
+        allow update: if isReplay();
+      }
+    }
+
+    // ---- invites/{code}: Invite Code lookup ----
+    match /invites/{code} {
+      allow get: if signedIn();
+      // Parents query their own Family's codes; nobody can enumerate codes.
+      allow list: if isParentMember(resource.data.familyId);
+      allow create: if validCode(code)
+        && exactKeys(request.resource.data, ['familyId', 'createdBy', 'expiresAt'])
+        && request.resource.data.createdBy == request.auth.uid
+        && isParentMember(request.resource.data.familyId)
+        && request.resource.data.expiresAt is timestamp
+        && request.resource.data.expiresAt > request.time
+        // 7 days plus an hour of client clock skew.
+        && request.resource.data.expiresAt <= request.time + duration.value(169, 'h');
+      allow delete: if isParentMember(resource.data.familyId);
+    }
+
+    // ---- families/{fid} ----
+    match /families/{fid} {
+      // memberIds lists every members doc (it may also hold uids whose doc is gone),
+      // so the family doc can go only with its last member and members never outlive it.
+      // Each change adds one uid whose members doc arrives, or drops one whose doc goes.
+      function isMemberIdsChange() {
+        let before = resource.data.memberIds;
+        let after = request.resource.data.memberIds;
+        let added = after.removeAll(before);
+        let removed = before.removeAll(after);
+        return onlyChanged(['memberIds'])
+          && after is list
+          && ((added.size() == 1 && removed.size() == 0 && after.size() == before.size() + 1
+                && existsAfter(memberPath(fid, added[0])))
+            || (removed.size() == 1 && added.size() == 0 && after.size() == before.size() - 1
+                && !existsAfter(memberPath(fid, removed[0]))));
+      }
+
+      allow read: if isMember(fid);
+      // Created together with the founder's members doc and profile familyId (one batch).
+      allow create: if signedIn()
+        && myProfile().role == 'parent'
+        && myProfile().get('familyId', null) == null
+        && exactKeys(request.resource.data, ['name', 'createdBy', 'createdAt', 'memberIds'])
+        && validName(request.resource.data.name, 40)
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.memberIds == [request.auth.uid]
+        && existsAfter(memberPath(fid, request.auth.uid));
+      // A replayed arrayUnion/arrayRemove changes nothing.
+      allow update: if (isParentMember(fid)
+          && onlyChanged(['name'])
+          && validName(request.resource.data.name, 40))
+        || (isMember(fid) && (onlyChanged([]) || isMemberIdsChange()));
+      // The last member, a Parent, dissolving: their own members doc goes in the same batch.
+      allow delete: if isParentMember(fid)
+        && resource.data.memberIds == [request.auth.uid]
+        && !existsAfter(memberPath(fid, request.auth.uid));
+
+      match /members/{memberUid} {
+        function validMember(data) {
+          return exactKeys(data, ['role', 'displayName', 'joinedAt'])
+            && data.role in ['parent', 'child']
+            && validName(data.displayName, 30)
+            && data.joinedAt == request.time;
+        }
+        function isFounder(data) {
+          return memberUid == request.auth.uid
+            && !exists(familyPath(fid))
+            && getAfter(familyPath(fid)).data.createdBy == request.auth.uid
+            && data.role == 'parent'
+            && data.displayName == myProfile().displayName;
+        }
+        function isApproval(data) {
+          let req = get(requestPath(fid, memberUid)).data;
+          return isParentMember(fid)
+            && exists(requestPath(fid, memberUid))
+            && req.status == 'pending'
+            && getAfter(requestPath(fid, memberUid)).data.status == 'approved'
+            && data.role == req.role
+            && data.displayName == req.displayName
+            && memberUid in getAfter(familyPath(fid)).data.memberIds
+            && get(userPath(memberUid)).data.get('familyId', null) == null;
+        }
+
+        allow read: if isMember(fid);
+        allow create: if validMember(request.resource.data)
+          && (isFounder(request.resource.data) || isApproval(request.resource.data));
+        allow update: if isOwner(memberUid)
+          && onlyChanged(['displayName'])
+          && validName(request.resource.data.displayName, 30);
+        allow delete: if isOwner(memberUid) || isParentMember(fid);
+      }
+
+      match /joinRequests/{reqUid} {
+        function validRequest(data) {
+          let invite = get(invitePath(data.code)).data;
+          return exactKeys(data, ['code', 'role', 'displayName', 'status', 'createdAt'])
+            && data.status == 'pending'
+            && data.createdAt == request.time
+            && data.role == myProfile().role
+            && data.displayName == myProfile().displayName
+            && validCode(data.code)
+            && exists(invitePath(data.code))
+            && invite.familyId == fid
+            && invite.expiresAt > request.time;
+        }
+
+        allow read: if isOwner(reqUid) || isParentMember(fid);
+        allow create: if isOwner(reqUid)
+          && !isMember(fid)
+          && myProfile().get('familyId', null) == null
+          && validRequest(request.resource.data);
+        allow update: if isParentMember(fid)
+          && resource.data.status == 'pending'
+          && onlyChanged(['status'])
+          && request.resource.data.status in ['approved', 'rejected'];
+        allow delete: if isOwner(reqUid) || isParentMember(fid);
+      }
+
+      // Scores only; the item answers live in users/{uid}/answers.
+      match /assessments/{assessmentId} {
+        function memberRole(uid) {
+          return get(memberPath(fid, uid)).data.role;
+        }
+        function score(v) {
+          return v is int && v >= 0 && v <= 100;
+        }
+        // Mirrors lib/domain/assessment/scoring.dart styleFor().
+        function quadrant(w, d) {
+          return w >= 50
+            ? (d >= 50 ? 'authoritative' : 'permissive')
+            : (d >= 50 ? 'authoritarian' : 'neglectful');
+        }
+        function validAssessment(a) {
+          return exactKeys(a, ['raterId', 'subjectParentId', 'perspective', 'warmth', 'demandingness', 'style', 'contentVersion', 'createdAt'])
+            && a.raterId == request.auth.uid
+            && score(a.warmth) && score(a.demandingness)
+            && a.style == quadrant(a.warmth, a.demandingness)
+            && a.contentVersion is string && a.contentVersion.matches('^[0-9]+[.][0-9]+$')
+            && a.createdAt == request.time
+            && ((a.perspective == 'self'
+                  && memberRole(request.auth.uid) == 'parent'
+                  && a.subjectParentId == request.auth.uid)
+              || (a.perspective == 'child_view'
+                  && memberRole(request.auth.uid) == 'child'
+                  && a.subjectParentId is string
+                  && exists(memberPath(fid, a.subjectParentId))
+                  && memberRole(a.subjectParentId) == 'parent'));
+        }
+
+        allow read: if isMember(fid);
+        allow create: if isMember(fid) && validAssessment(request.resource.data);
+        allow update: if isMember(fid)
+          && resource.data.raterId == request.auth.uid
+          && isReplay();
+        allow delete: if isParentMember(fid)
+          || (signedIn() && resource.data.raterId == request.auth.uid);
+      }
+
+      match /challenges/{challengeId} {
+        function validDate(d) {
+          return d is string && d.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+        }
+        // shortcut: participants are not checked to be Members (rules cannot loop);
+        // a non-Member uid in the list can never write, because update needs isMember.
+        function validChallenge(c) {
+          return exactKeys(c, ['adviceId', 'title', 'createdBy', 'participants', 'startDate', 'endDate', 'status', 'checkIns', 'createdAt'])
+            && c.adviceId is string && c.adviceId.size() <= 100
+            && validName(c.title, 300)
+            && c.createdBy == request.auth.uid
+            && c.participants is list && c.participants.size() >= 1 && c.participants.size() <= 10
+            && validDate(c.startDate) && validDate(c.endDate) && c.endDate > c.startDate
+            && c.status == 'active'
+            && c.checkIns == {}
+            && c.createdAt == request.time;
+        }
+        // Appends exactly one new date within the week to the caller's own list.
+        function isCheckIn() {
+          let mine = resource.data.checkIns.get(request.auth.uid, []);
+          let next = request.resource.data.checkIns.get(request.auth.uid, []);
+          return resource.data.status == 'active'
+            && next is list
+            && onlyChanged(['checkIns'])
+            && request.resource.data.checkIns.diff(resource.data.checkIns).affectedKeys().hasOnly([request.auth.uid])
+            && next.size() == mine.size() + 1
+            // A [0:0] slice errors in the rules runtime, so the empty case is separate.
+            && (mine.size() == 0 || next[0:mine.size()] == mine)
+            && validNewDay(next[mine.size()], mine);
+        }
+        function validNewDay(d, mine) {
+          return validDate(d) && !(d in mine)
+            && d >= resource.data.startDate && d <= resource.data.endDate;
+        }
+        function isFinish() {
+          return onlyChanged(['status']) && request.resource.data.status == 'finished';
+        }
+        function isParticipant() {
+          return isMember(fid) && request.auth.uid in resource.data.participants;
+        }
+
+        allow read: if isMember(fid);
+        allow create: if isMember(fid) && validChallenge(request.resource.data);
+        // A replayed arrayUnion or finish changes nothing; a replayed create changes createdAt.
+        allow update: if (isParticipant() && (isCheckIn() || isFinish() || onlyChanged([])))
+          || (isMember(fid) && resource.data.createdBy == request.auth.uid && isReplay());
+        // Parents too: dissolving the Family deletes the whole tree.
+        allow delete: if isParentMember(fid)
+          || (isMember(fid) && resource.data.createdBy == request.auth.uid);
+      }
+
+      match /activity/{activityId} {
+        allow read: if isMember(fid);
+        allow create: if isMember(fid)
+          && exactKeys(request.resource.data, ['type', 'actorId', 'refId', 'createdAt', 'expireAt'])
+          && request.resource.data.actorId == request.auth.uid
+          && request.resource.data.type in ['member_joined', 'member_left', 'assessment_done', 'challenge_started', 'challenge_finished']
+          && (request.resource.data.refId == null || request.resource.data.refId is string)
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.expireAt is timestamp;
+        // The SDK re-sends a batch whose acknowledgement was lost; that replay of
+        // the same set() arrives as an update and must not fail the whole batch.
+        allow update: if signedIn()
+          && resource.data.actorId == request.auth.uid
+          && onlyChanged(['createdAt', 'expireAt'])
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.expireAt is timestamp;
+        allow delete: if isParentMember(fid)
+          || (signedIn() && resource.data.actorId == request.auth.uid);
+      }
+    }
+  }
+}

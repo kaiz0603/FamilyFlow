@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "demo-familyflow",
+    "dev": "familyflow-dev-kz",
+    "prod": "familyflow-prod-kz"
+  }
+}
