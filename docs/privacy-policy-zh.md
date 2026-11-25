@@ -4,7 +4,7 @@ title: FamilyFlow 隐私政策
 
 # FamilyFlow 隐私政策
 
-[English](privacy-policy.html) · 最后更新：2026 年 11 月 20 日
+[English](privacy-policy.html) · 最后更新：2026 年 11 月 26 日
 
 FamilyFlow 是一款免费应用，面向父母和 13 岁及以上的孩子。应用没有广告，我们不会出售或分享你的数据。
 
@@ -43,4 +43,4 @@ FamilyFlow 不面向 13 岁以下的儿童。注册时会询问出生年份，�
 如果本政策有变化，我们会更新上方日期和本页内容。重要变化也会在版本说明中告知。
 
 ## 联系我们
-CONTACT_EMAIL
+kkzkkz130@gmail.com

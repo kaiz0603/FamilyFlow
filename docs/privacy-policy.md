@@ -4,7 +4,7 @@ title: FamilyFlow Privacy Policy
 
 # FamilyFlow Privacy Policy
 
-[中文](privacy-policy-zh.html) · Last updated: 20 November 2026
+[中文](privacy-policy-zh.html) · Last updated: 26 November 2026
 
 FamilyFlow is a free app for parents and for children aged 13 and over. It has no ads, and we do not sell or share your data.
 
@@ -43,4 +43,4 @@ FamilyFlow is not for children under 13. Sign-up asks for the birth year and sto
 If this policy changes, we update the date above and the policy here. Important changes are also announced in the release notes.
 
 ## Contact
-CONTACT_EMAIL
+kkzkkz130@gmail.com
