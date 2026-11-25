@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "564319031845-qmfp15d4brj2ler91037k8ke6biu6too.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.kaiz0603.familyflow",
+            "certificate_hash": "90d3e2ef471ab4449b5cdf8b414455f5bfe7bf1c"
+          }
+        },
+        {
           "client_id": "564319031845-7k6q5uuuu1l8cqju0nq2dspmfuqbgaug.apps.googleusercontent.com",
           "client_type": 3
         }
