@@ -1,7 +1,7 @@
 name: familyflow
 description: "Parents and teens compare how they see the family's parenting style."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.14.0
@@ -35,9 +35,21 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   fake_cloud_firestore: ^4.5.0
   firebase_auth_mocks: ^0.16.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   generate: true
   uses-material-design: true
   assets:
     - assets/content/
+
+# `dart run flutter_launcher_icons` regenerates the Android and iOS icons from this image.
+flutter_launcher_icons:
+  image_path: assets/icon/icon.png
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  # icon.png with its gradient extended 25% on each side, so Android masks keep the bubbles whole.
+  adaptive_icon_foreground: assets/icon/icon_adaptive.png
+  adaptive_icon_foreground_inset: 0
+  adaptive_icon_background: "#16897C"

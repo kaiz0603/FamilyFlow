@@ -2,6 +2,11 @@
 
 Versions follow `MAJOR.MINOR.PATCH`; the build number in `pubspec.yaml` goes up by one with every release.
 
+## 1.0.1 — unreleased
+
+- New app icon (replaces the Flutter default).
+- Privacy policy: activity entries are kept until the family is deleted.
+
 ## 1.0.0 — 2026-11-26
 
 First release of the rebuilt app (Android APK; iOS builds but is not distributed).
