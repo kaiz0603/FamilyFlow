@@ -30,7 +30,7 @@ In Google Firebase (Authentication, Cloud Firestore and Crashlytics), operated b
 ## How long we keep it
 - Family data: until you leave the family. When the last parent leaves, the whole family is deleted.
 - Everything else: until you delete your account.
-- Activity entries: deleted automatically after 90 days.
+- Activity entries: until the family is deleted.
 - Crash reports: 90 days.
 
 ## Your choices
